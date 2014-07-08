@@ -83,7 +83,7 @@ mdpolicy = group:main
 # Uncomment to auto-import new gpg keys (dangerous)
 # assumeyes = True
 
-# Exclude packages
 <% if ! @exclude.empty? -%>
-exclude=<%= @exclude.join(' ') %>
+# Exclude packages
+exclude=<%= @exclude_real %>
 <% end -%>

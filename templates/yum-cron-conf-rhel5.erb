@@ -13,7 +13,7 @@ DOWNLOAD_ONLY=<% if @action == 'download' -%>yes<% else -%>no<% end %>
 # by this package.  Be aware that this is global, and yum is invoked in 
 # several modes by these scripts for which your own parameter might not
 # be appropriate
-YUM_PARAMETER=<%= @exclude.map { |x| "--exclude=" + x }.join('\ ') %>
+YUM_PARAMETER=<%= @exclude_real %>
 
 # Error level, practical range 0-10, 0 means print only critical errors which
 # you must be told, 1 means print all errors, even ones that are not important

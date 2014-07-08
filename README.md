@@ -6,16 +6,16 @@
 2. [Module Description](#module-description)
 3. [Setup](#setup)
 4. [Usage](#usage)
+5. [To Do](#to-do)
 
 ##Overview
 
 The autoupdate module allows you to configure automatic updates on all [RHEL variants](http://en.wikipedia.org/wiki/List_of_Linux_distributions#RHEL-based).
+**Fedora is not supported yet**.
 
 ##Module description
 
 The yum-cron service enables scheduled system updates on RHEL-based systems. This module allows you to install and configure this service without the need to fiddle manually with configuration files, which may vary from one major version to the other on most RHEL-based distributions.
-
-Does not (yet) support Fedora.
 
 ##Setup
 
@@ -96,7 +96,7 @@ Array of packages to exclude from automatic update. Defaults to '[]'.
 
 #####`service_enable`
 
-Enable service or not Valid values are 'true' and 'false'. Defaults to 'true'.
+Enable the service or not. Valid values are 'true' and 'false'. Defaults to 'true'.
 
 #####`service_ensure`
 
@@ -121,3 +121,11 @@ YUM debug level. Valid values are numbers between 0 and 10. '0' to disable. Defa
 #####`randomwait`
 
 Maximum amount of time in minutes YUM randomly waits before running. Valid values are numbers between 0 and 1440. '0' to disable. Defaults to '60'.
+
+##To Do
+
+* Support Fedora
+* Add support for multiple schedules
+* Add support for passing arbitrary parameters to YUM
+
+Features request and contributions are always welcome!

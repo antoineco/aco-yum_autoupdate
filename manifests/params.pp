@@ -4,9 +4,11 @@ class autoupdate::params {
   case $::osfamily {
     'RedHat' : {
       case $::operatingsystem {
+        # Fedora does not follow RHEL release numbers
         'Fedora' : {
-          fail("Unsupported OS ${::operatingsystem}")
+          fail("Unsupported OS  ${::operatingsystem}")
         }
+        # all other RHEL-based OS
         default  : {
           case $::operatingsystemmajrelease {
             '7'     : {

@@ -67,6 +67,13 @@ class autoupdate (
     enable => $service_enable
   }
 
+  # output correct format for the exclusion list
+  $exclude_real = versioncmp($::operatingsystemmajrelease, '7') ? {
+    '0'     => join($exclude, ' '),
+    '-1'    => join(prefix($exclude, '--exclude='), '\ '),
+    default => fail("Unsupported OS version ${::operatingsystemmajrelease}")
+  }
+
   # config file
   file { 'yum-cron config':
     ensure  => present,
