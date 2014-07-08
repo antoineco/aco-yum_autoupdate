@@ -10,8 +10,7 @@
 
 ##Overview
 
-The autoupdate module allows you to configure automatic updates on all [RHEL variants](http://en.wikipedia.org/wiki/List_of_Linux_distributions#RHEL-based).
-**Fedora is not supported yet**.
+The autoupdate module allows you to configure automatic updates on all [RHEL variants](http://en.wikipedia.org/wiki/List_of_Linux_distributions#RHEL-based) including Fedora.
 
 ##Module description
 
@@ -124,8 +123,8 @@ Maximum amount of time in minutes YUM randomly waits before running. Valid value
 
 ##To Do
 
-* Support Fedora
 * Add support for multiple schedules
 * Add support for passing arbitrary parameters to YUM
+* Make it Debian compatible
 
 Features request and contributions are always welcome!

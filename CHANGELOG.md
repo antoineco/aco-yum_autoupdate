@@ -1,3 +1,9 @@
+###0.2.0
+
+OS support release
+
+* Added support for Fedora 15+
+
 ###0.1.1
 
 Minor fixes release

@@ -6,25 +6,52 @@ class autoupdate::params {
       case $::operatingsystem {
         # Fedora does not follow RHEL release numbers
         'Fedora' : {
-          fail("Unsupported OS  ${::operatingsystem}")
+          case $::operatingsystemmajrelease {
+            /19|20/    : {
+              $config_path = '/etc/yum/yum-cron.conf'
+              $config_tpl = 'yum-cron-conf-fc1920.erb'
+              $custom_script = false
+            }
+            /16|17|18/ : {
+              $config_path = '/etc/sysconfig/yum-cron'
+              $config_tpl = 'yum-cron-conf-fc161718.erb'
+              $custom_script = true
+              $script_path = '/usr/sbin/yum-cron'
+              $script_tpl = 'yum-cron-script-fc161718.erb'
+            }
+            '15'       : {
+              $config_path = '/etc/sysconfig/yum-cron'
+              $config_tpl = 'yum-cron-conf-fc15.erb'
+              $custom_script = true
+              $script_path = '/etc/cron.daily/0yum.cron'
+              $script_tpl = 'yum-cron-script-fc15.erb'
+            }
+            default    : {
+              fail("Unsupported OS version ${::operatingsystemmajrelease}")
+            }
+          }
         }
         # all other RHEL-based OS
         default  : {
           case $::operatingsystemmajrelease {
             '7'     : {
-              $config_file = '/etc/yum/yum-cron.conf'
+              $config_path = '/etc/yum/yum-cron.conf'
+              $config_tpl = 'yum-cron-conf-rhel7.erb'
               $custom_script = false
-              $script_path = '/usr/sbin/yum-cron'
             }
             '6'     : {
-              $config_file = '/etc/sysconfig/yum-cron'
+              $config_path = '/etc/sysconfig/yum-cron'
+              $config_tpl = 'yum-cron-conf-rhel6.erb'
               $custom_script = true
               $script_path = '/etc/cron.daily/0yum.cron'
+              $script_tpl = 'yum-cron-script-rhel6.erb'
             }
             '5'     : {
-              $config_file = '/etc/sysconfig/yum-cron'
+              $config_path = '/etc/sysconfig/yum-cron'
+              $config_tpl = 'yum-cron-conf-rhel5.erb'
               $custom_script = true
               $script_path = '/etc/cron.daily/yum.cron'
+              $script_tpl = 'yum-cron-script-rhel5.erb'
             }
             default : {
               fail("Unsupported OS version ${::operatingsystemmajrelease}")

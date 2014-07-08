@@ -68,17 +68,20 @@ class autoupdate (
   }
 
   # output correct format for the exclusion list
-  $exclude_real = versioncmp($::operatingsystemmajrelease, '7') ? {
-    '0'     => join($exclude, ' '),
-    '-1'    => join(prefix($exclude, '--exclude='), '\ '),
-    default => fail("Unsupported OS version ${::operatingsystemmajrelease}")
+  if ($::operatingsystem == 'Fedora' and $::operatingsystemmajrelease =~ /1[5-8]/) or ($::operatingsystemmajrelease =~ /5|6/) {
+    $exclude_real = join(prefix($exclude, '--exclude='), '\ ')
+  } else {
+    $exclude_real = join($exclude, ' ')
   }
 
   # config file
   file { 'yum-cron config':
     ensure  => present,
-    path    => $::autoupdate::params::config_file,
-    content => template("autoupdate/yum-cron-conf-rhel${::operatingsystemmajrelease}.erb")
+    path    => $::autoupdate::params::config_path,
+    content => template("autoupdate/${::autoupdate::params::config_tpl}"),
+    mode    => '0644',
+    owner   => 'root',
+    group   => 'root'
   }
 
   # the yum-cron script itself might need to be overriden in order to implement the extra options provided by this module
@@ -86,8 +89,10 @@ class autoupdate (
     file { 'yum-cron script':
       ensure  => present,
       path    => $::autoupdate::params::script_path,
-      content => template("autoupdate/yum-cron-script-rhel${::operatingsystemmajrelease}.erb"),
-      mode    => '0755'
+      content => template("autoupdate/${::autoupdate::params::script_tpl}"),
+      mode    => '0755',
+      owner   => 'root',
+      group   => 'root'
     }
   }
 }

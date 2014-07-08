@@ -1,5 +1,5 @@
 name    'aco-autoupdate'
-version '0.1.1'
+version '0.2.0'
 source 'git://github.com/tOnI0/aco-autoupdate.git'
 author 'Antoine Cotten'
 license 'Apache License, Version 2.0'

@@ -49,7 +49,7 @@ fi
 
 if [ ! -z "$MAILTO" ] && [ -x /bin/mail ]; then
 # if MAILTO is set, use mail command (ie better than standard mail with cron output)
-  [ -s "$YUMTMP" ] && mail -s "System update: $SYSTEMNAME"<% if ! @email_from.empty? -%>-r $MAILFROM<% end %> $MAILTO < $YUMTMP
+  [ -s "$YUMTMP" ] && mail -s "System update: $SYSTEMNAME"<% if ! @email_from.empty? -%> -r $MAILFROM<% end %> $MAILTO < $YUMTMP
 else
 # default behavior is to use cron's internal mailing of output from cron-script
   cat $YUMTMP

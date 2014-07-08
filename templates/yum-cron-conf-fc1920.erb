@@ -27,7 +27,9 @@ apply_updates = <% if @action == 'apply' -%>yes<% else -%>no<% end %>
 # minutes before running.  This is useful for e.g. staggering the
 # times that multiple systems will access update servers.  If
 # random_sleep is 0 or negative, the program will run immediately.
-# 6*60 = 360
+#  NOTE that we hold up all the other things in cron.daily as we wait,
+# so while waiting for 6+ hours is fine for us it might not be nice
+# for logrotate (so wait for 2 hours by default).
 random_sleep = <%= @randomwait %>
 
 
