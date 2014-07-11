@@ -41,22 +41,13 @@ class { '::autoupdate':
 }
 ```
 
-Suppress debug output completely, including deltarpm on modern platforms
+Suppress debug output completely, but keep logging possible errors
 
 ```puppet
 class { '::autoupdate':
   …
-  debug_level => '-1'
-}
-```
-
-Set arbitrary debug/error levels
-
-```puppet
-class { '::autoupdate':
-  …
-  debug_level => '2',
-  error_level => '1'
+  debug_level => '-1',
+  error_level => '3'
 }
 ```
 
@@ -123,11 +114,13 @@ Whether the service should be running. Valid values are 'stopped' and 'running'.
 
 #####`notify_email`
 
-Disable email notifications. Valid values are 'true' and 'false'. Defaults to 'true'
+Enable email notifications. Valid values are 'true' and 'false'. Defaults to 'true'  
+It is recommended to also adjust debug/error levels accordingly (see below) 
 
 #####`email_to`
 
-Recipient email address for update notifications. Defaults to 'root' (local user)
+Recipient email address for update notifications. Defaults to 'root' (local user)  
+An empty string forces the output to stdio, so emails will be sent by crond
 
 #####`email_from`
 
@@ -135,10 +128,13 @@ Sender email address for update notifications. No effect when `email_to` is empt
 
 #####`debug_level`
 
-YUM debug level. Valid values are numbers between -1 and 10. '0' to disable. Defaults to '0'
--1 is necessary to also suppress messages from deltarpm on modern platforms
+YUM debug level. Valid values are numbers between -1 and 10. '-1' to disable. Default depends on the platform  
+Enforced to `-1` when `notify_email` is `false`
 
-Note: always outputs to stdio on modern platforms, can apparently not be changed
+Notes:
+
+* `-1` is necessary to also suppress messages from deltarpm, since `0` doesn't
+* Always outputs to stdio on modern platforms, can apparently not be changed
 
 #####`error_level`
 

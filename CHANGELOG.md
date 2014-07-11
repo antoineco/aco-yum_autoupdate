@@ -1,3 +1,12 @@
+###0.3.1
+
+Adjustment release
+
+* Adjust default `debug_level` depending on the platform
+* `debug_level` is enforced to `-1` when `notify_email` is set to `false`
+* Updated documentation
+* Removed unused `download_only` parameter (leftover)
+
 ###0.3.0
 
 Feature release

@@ -17,7 +17,7 @@
 # $email_to:
 #   recipient email address for update notifications. No effect when $notify is false
 # $email_from:
-#   sender email address for update notifications
+#   sender email address for update notifications. No effect when $email_to is empty
 # $debug_level:
 #   YUM debug level (valid: 0-10 or -1). -1 to disable debug output completely
 # $error_level:
@@ -49,36 +49,37 @@ class autoupdate (
   $notify_email   = true,
   $email_to       = 'root',
   $email_from     = 'root',
-  $download_only  = 'no',
-  $debug_level    = 0,
+  $debug_level    = $::autoupdate::params::debug_level,
   $error_level    = 0,
   $randomwait     = 60) inherits ::autoupdate::params {
   # parameters validation
   validate_re($action, '^(check|download|apply)$', '$action must be either \'check\', \'download\' or \'apply\'')
   validate_array($exclude)
-  validate_bool($service_enable)
+  validate_bool($service_enable, $notify_email)
   validate_re($service_ensure, '^(stopped|running)$', '$service_ensure must be either \'stopped\', or \'running\'')
   validate_string($email_to, $email_from)
   validate_re($debug_level, '^([0-9]|10|-1)$', '$debug_level must be a number between -1 and 10')
   validate_re($error_level, '^([0-9]|10)$', '$error_level must be a number between 0 and 10')
   validate_re($randomwait, '^([0-9]|[1-9][0-9]|[1-9][0-9][0-9]|1[0-3][0-9][0-9]|14[0-3][0-9]|1440)$', '$randomwait must be a number between 0 and 1440')
 
-  # package installation
-  package { 'yum-cron': ensure => present } ->
-  service { 'yum-cron':
-    ensure => $service_ensure,
-    enable => $service_enable
+  # set real parameter values
+  $debug_level_real = $notify_email ? {
+    false   => '-1',
+    default => $debug_level,
   }
 
   # platform specific logic
   if ($::operatingsystem == 'Fedora' and $::operatingsystemmajrelease =~ /1[5-8]/) or ($::operatingsystemmajrelease =~ /5|6/) {
     $exclude_real = join(prefix($exclude, '--exclude='), '\ ')
-    $debug_level_real = $notify_email ? {
-      false   => '-1',
-      default => $debug_level,
-    } } else {
+  } else {
     $exclude_real = join($exclude, ' ')
-    $debug_level_real = $debug_level
+  }
+
+  # package installation
+  package { 'yum-cron': ensure => present } ->
+  service { 'yum-cron':
+    ensure => $service_ensure,
+    enable => $service_enable
   }
 
   # config file
