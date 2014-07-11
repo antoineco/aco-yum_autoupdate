@@ -40,7 +40,7 @@ touch $YUMTMP
 
 # Random wait function
 random_wait() {
-  sleep <% if @randomwait != '0' -%>$(( $RANDOM % ($RANDOMWAIT * 60) + 1 ))<% else -%>0<% end %>
+  [[ $RANDOMWAIT -gt 0 ]] && sleep $(( $RANDOM % ($RANDOMWAIT * 60) + 1 ))
 }
 
 # Note - the lockfile code doesn't try and use YUMTMP to email messages nicely.
@@ -95,7 +95,7 @@ fi
   # First, if this is CLEANDAY, do so
   CLEANDAY=${CLEANDAY:-0}
   if [ ! "${CLEANDAY/$dow/}" == "${CLEANDAY}" ]; then
-      /usr/bin/yum $YUM_PARAMETER -e ${ERROR_LEVEL:-0} -d ${DEBUG_LEVEL:-0} -y shell $WEEKLYSCRIPT
+      /usr/bin/yum $YUM_PARAMETER -e ${ERROR_LEVEL:-0} -d${DEBUG_LEVEL:-0} -y shell $WEEKLYSCRIPT
   fi
 
   # Now continue to do the real work
@@ -106,9 +106,9 @@ fi
     case $? in
       1)   exit 1;;
       100) echo "New updates available for host `/bin/hostname`";
-           /usr/bin/yum $YUM_PARAMETER -e ${ERROR_LEVEL:-0} -d ${DEBUG_LEVEL:-0} -y -C check-update
+           /usr/bin/yum $YUM_PARAMETER -e ${ERROR_LEVEL:-0} -d${DEBUG_LEVEL:-0} -y -C check-update
            if [ "$DOWNLOAD_ONLY" == "yes" ]; then
-	       /usr/bin/yum $YUM_PARAMETER -e ${ERROR_LEVEL:-0} -d ${DEBUG_LEVEL:-0} -y --downloadonly update
+	       /usr/bin/yum $YUM_PARAMETER -e ${ERROR_LEVEL:-0} -d${DEBUG_LEVEL:-0} -y --downloadonly update
 	       echo "Updates downloaded, use \"yum -C update\" manually to install them."
 	   fi
 	   ;;
@@ -120,15 +120,15 @@ fi
     /usr/bin/yum $YUM_PARAMETER -e 0 -d 0 check-update 2>&-
     case $? in
       1)   exit 1;;
-      100) /usr/bin/yum $YUM_PARAMETER -e ${ERROR_LEVEL:-0} -d ${DEBUG_LEVEL:-0} -y update yum
-           /usr/bin/yum $YUM_PARAMETER -e ${ERROR_LEVEL:-0} -d ${DEBUG_LEVEL:-0} -y shell $DAILYSCRIPT
+      100) /usr/bin/yum $YUM_PARAMETER -e ${ERROR_LEVEL:-0} -d${DEBUG_LEVEL:-0} -y update yum
+           /usr/bin/yum $YUM_PARAMETER -e ${ERROR_LEVEL:-0} -d${DEBUG_LEVEL:-0} -y shell $DAILYSCRIPT
            ;;
     esac
   else
     random_wait
     touch $TSLOCK
-    /usr/bin/yum $YUM_PARAMETER -e ${ERROR_LEVEL:-0} -d ${DEBUG_LEVEL:-0} -y update yum
-    /usr/bin/yum $YUM_PARAMETER -e ${ERROR_LEVEL:-0} -d ${DEBUG_LEVEL:-0} -y shell $DAILYSCRIPT
+    /usr/bin/yum $YUM_PARAMETER -e ${ERROR_LEVEL:-0} -d${DEBUG_LEVEL:-0} -y update yum
+    /usr/bin/yum $YUM_PARAMETER -e ${ERROR_LEVEL:-0} -d${DEBUG_LEVEL:-0} -y shell $DAILYSCRIPT
   fi
 } >> $YUMTMP 2>&1
 

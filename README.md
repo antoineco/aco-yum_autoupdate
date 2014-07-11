@@ -30,51 +30,71 @@ Including the main class is enough to get started. It will enable automatic upda
     include ::autoupdate
 ```
 
-####A couple of examples 
+####A couple of examples
 
-Disable emails (default) and just download updates, do not apply
+Disable emails and just download updates, do not apply
 
 ```puppet
-    class { '::autoupdate':
-      debug_level => '0',
-      error_level => '0',
-      action      => 'download'
-    }
+class { '::autoupdate':
+  notify_email => false,
+  action       => 'download'
+}
 ```
 
-Enable emails (debug/error levels are arbitrary). Send emails to a different receiver (local root account by default) and from a specific sender address 
+Suppress debug output completely, including deltarpm on modern platforms
 
 ```puppet
-    class { '::autoupdate':
-      debug_level => '1',
-      error_level => '1',
-      email_to    => 'admin@example.com',
-      email_from  => 'sysupdates@example.com'
-    }
+class { '::autoupdate':
+  …
+  debug_level => '-1'
+}
 ```
 
-Let crond send emails
+Set arbitrary debug/error levels
 
 ```puppet
-    class { '::autoupdate':
-      email_to => ''
-    }
+class { '::autoupdate':
+  …
+  debug_level => '2',
+  error_level => '1'
+}
+```
+
+Send emails to a different receiver (local root account by default) and from a specific sender address 
+
+```puppet
+class { '::autoupdate':
+  …
+  email_to   => 'admin@example.com',
+  email_from => 'sysupdates@example.com'
+}
+```
+
+Let crond send emails instead of mailx
+
+```puppet
+class { '::autoupdate':
+  …
+  email_to => ''
+}
 ```
 
 Disable random delay
 
 ```puppet
-    class { '::autoupdate':
-      randomwait => '0'
-    }
+class { '::autoupdate':
+  …
+  randomwait => '0'
+}
 ```
 
 Exclude specific packages
 
 ```puppet
-    class { '::autoupdate':
-      exclude => ['httpd','puppet*']
-    }
+class { '::autoupdate':
+  …
+  exclude => ['httpd','puppet*']
+}
 ```
 
 ##Usage
@@ -87,19 +107,23 @@ Primary class and entry point of the module.
 
 #####`action`
 
-Mode in which yum-crom should perform. Valid values are 'check', 'download' and 'apply'. Defaults to 'apply'.
+Mode in which yum-crom should perform. Valid values are 'check', 'download' and 'apply'. Defaults to 'apply'
 
 #####`exclude`
 
-Array of packages to exclude from automatic update. Defaults to '[]'.
+Array of packages to exclude from automatic update. Defaults to '[]'
 
 #####`service_enable`
 
-Enable the service or not. Valid values are 'true' and 'false'. Defaults to 'true'.
+Enable the service or not. Valid values are 'true' and 'false'. Defaults to 'true'
 
 #####`service_ensure`
 
-Whether the service should be running. Valid values are 'stopped' and 'running'. Defaults to 'running'.
+Whether the service should be running. Valid values are 'stopped' and 'running'. Defaults to 'running'
+
+#####`notify_email`
+
+Disable email notifications. Valid values are 'true' and 'false'. Defaults to 'true'
 
 #####`email_to`
 
@@ -109,17 +133,22 @@ Recipient email address for update notifications. Defaults to 'root' (local user
 
 Sender email address for update notifications. No effect when `email_to` is empty. Defaults to 'root' (local user)
 
-#####`error_level`
-
-YUM error level. Valid values are numbers between 0 and 10. '0' to disable. Defaults to '0'.
-
 #####`debug_level`
 
-YUM debug level. Valid values are numbers between 0 and 10. '0' to disable. Defaults to '0'.
+YUM debug level. Valid values are numbers between -1 and 10. '0' to disable. Defaults to '0'
+-1 is necessary to also suppress messages from deltarpm on modern platforms
+
+Note: always outputs to stdio on modern platforms, can apparently not be changed
+
+#####`error_level`
+
+YUM error level. Valid values are numbers between 0 and 10. '0' to disable. Defaults to '0'
+
+Note: always outputs to stdio on modern platforms, can apparently not be changed
 
 #####`randomwait`
 
-Maximum amount of time in minutes YUM randomly waits before running. Valid values are numbers between 0 and 1440. '0' to disable. Defaults to '60'.
+Maximum amount of time in minutes YUM randomly waits before running. Valid values are numbers between 0 and 1440. '0' to disable. Defaults to '60'
 
 ##To Do
 

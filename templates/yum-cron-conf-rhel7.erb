@@ -13,7 +13,7 @@ update_cmd = default
 
 # Whether a message should be emitted when updates are available,
 # were downloaded, or applied.
-update_messages = <% if @debug_level != '0' -%>yes<% else -%>no<% end %>
+update_messages = <% if @notify_email -%>yes<% else -%>no<% end %>
 
 # Whether updates should be downloaded when they are available.
 download_updates = <% if @action =~ /download|apply/ -%>yes<% else -%>no<% end %>
@@ -74,7 +74,7 @@ group_package_types = mandatory, default
 # -4: critical
 # -3: critical+errors
 # -2: critical+errors+warnings (default)
-debuglevel = <%= @debug_level %>
+debuglevel = <%= @debug_level_real %>
 errorlevel = <%= @error_level %>
 
 # skip_broken = True

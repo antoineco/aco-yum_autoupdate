@@ -129,9 +129,9 @@ fi
           case $? in
             1)   exit 1;;
             100) echo "New updates available for host $SYSTEMNAME";
-                 /usr/bin/yum $YUM_PARAMETER -e ${ERROR_LEVEL:-0} -d ${DEBUG_LEVEL:-0} -y -C check-update
+                 /usr/bin/yum $YUM_PARAMETER -e ${ERROR_LEVEL:-0} -d${DEBUG_LEVEL:-0} -y -C check-update
                  if [[ "$DOWNLOAD_ONLY" == "yes" ]]; then
-                     /usr/bin/yum $YUM_PARAMETER -e ${ERROR_LEVEL:-0} -d ${DEBUG_LEVEL:-0} -y --downloadonly update
+                     /usr/bin/yum $YUM_PARAMETER -e ${ERROR_LEVEL:-0} -d${DEBUG_LEVEL:-0} -y --downloadonly update
                      echo "Updates downloaded. Use \"yum -C update\" manually to install them."
                  fi
                  ;;
@@ -143,18 +143,18 @@ fi
           /usr/bin/yum $YUM_PARAMETER -e 0 -d 0 check-update 2>&-
           case $? in
             1)   exit 1;;
-            100) /usr/bin/yum $YUM_PARAMETER -e ${ERROR_LEVEL:-0} -d ${DEBUG_LEVEL:-0} -y update yum
-                 /usr/bin/yum $YUM_PARAMETER -e ${ERROR_LEVEL:-0} -d ${DEBUG_LEVEL:-0} -y shell $YUMSCRIPT
+            100) /usr/bin/yum $YUM_PARAMETER -e ${ERROR_LEVEL:-0} -d${DEBUG_LEVEL:-0} -y update yum
+                 /usr/bin/yum $YUM_PARAMETER -e ${ERROR_LEVEL:-0} -d${DEBUG_LEVEL:-0} -y shell $YUMSCRIPT
                  ;;
           esac
         else
           # and here's the "just do it".
-          /usr/bin/yum $YUM_PARAMETER -e ${ERROR_LEVEL:-0} -d ${DEBUG_LEVEL:-0} -y update yum
-          /usr/bin/yum $YUM_PARAMETER -e ${ERROR_LEVEL:-0} -d ${DEBUG_LEVEL:-0} -y shell $YUMSCRIPT
+          /usr/bin/yum $YUM_PARAMETER -e ${ERROR_LEVEL:-0} -d${DEBUG_LEVEL:-0} -y update yum
+          /usr/bin/yum $YUM_PARAMETER -e ${ERROR_LEVEL:-0} -d${DEBUG_LEVEL:-0} -y shell $YUMSCRIPT
         fi
         ;;
     *)
-        /usr/bin/yum $YUM_PARAMETER -e ${ERROR_LEVEL:-0} -d ${DEBUG_LEVEL:-0} -y shell $YUMSCRIPT
+        /usr/bin/yum $YUM_PARAMETER -e ${ERROR_LEVEL:-0} -d${DEBUG_LEVEL:-0} -y shell $YUMSCRIPT
         ;;
   esac       
 

@@ -33,14 +33,14 @@ touch $YUMTMP
 if [[ "x$CHECK_ONLY" == "xyes" ]]; then
   if (! /usr/bin/yum<% if @randomwait != '0' -%> -R $RANDOMWAIT<% end %> -e 0 -d 0 -y check-update >/dev/null); then
     echo "New updates available for host `/bin/hostname`";
-    echo -e "`/usr/bin/yum -e $ERROR_LEVEL -d $DEBUG_LEVEL -y -C check-update`\n"
+    echo -e "`/usr/bin/yum -e ${ERROR_LEVEL:-0} -d${DEBUG_LEVEL:-0} -y -C check-update`\n"
     if [[ "x$DOWNLOAD_ONLY" == "xyes" ]]; then
       /usr/bin/yum -e 0 -d 0 -y --downloadonly update>/dev/null
       echo "Updates downloaded, use \"yum -C update\" manually to install them."
     fi
   fi
 else
-  /usr/bin/yum $YUM_PARAMETER<% if @randomwait != '0' -%> -R $RANDOMWAIT<% end %> -e $ERROR_LEVEL -d $DEBUG_LEVEL -y shell /etc/yum/yum-daily.yum
+  /usr/bin/yum $YUM_PARAMETER<% if @randomwait != '0' -%> -R $RANDOMWAIT<% end %> -e ${ERROR_LEVEL:-0} -d${DEBUG_LEVEL:-0} -y shell /etc/yum/yum-daily.yum
 fi
 } >> $YUMTMP 2>&1
 
