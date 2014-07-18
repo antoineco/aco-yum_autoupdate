@@ -1,3 +1,10 @@
+###0.3.2
+
+Bug fix release
+
+* Remove `email_from` feature from CentOS 5, since it is not supported
+* Updated documentation
+
 ###0.3.1
 
 Adjustment release

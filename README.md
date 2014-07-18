@@ -27,7 +27,7 @@ autoupdate will affect the following parts of your system:
 Including the main class is enough to get started. It will enable automatic updates check via a cron.daily task and apply all available updates whenever possible. Summary emails are sent to the local root user.
 
 ```puppet
-    include ::autoupdate
+include ::autoupdate
 ```
 
 ####A couple of examples
@@ -125,6 +125,8 @@ An empty string forces the output to stdio, so emails will be sent by crond
 #####`email_from`
 
 Sender email address for update notifications. No effect when `email_to` is empty. Defaults to 'root' (local user)
+
+Note: not supported on CentOS 5
 
 #####`debug_level`
 
