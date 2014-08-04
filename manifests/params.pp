@@ -1,4 +1,4 @@
-# === Class: autoupdate::params
+# == Class: autoupdate::params
 #
 class autoupdate::params {
   case $::osfamily {
