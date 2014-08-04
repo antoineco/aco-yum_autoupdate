@@ -1,45 +1,45 @@
-# === Class: autoupdate
+# == Class: autoupdate
 #
 # This module installs yum-cron on CentOS systems and configures nightly system updates.
 #
-# == Parameters
+# === Parameters:
 #
-# $action:
+# [*action*]
 #   mode in which yum-crom should perform (valid: 'check'|'download'|'apply')
-# $exclude:
+# [*exclude*]
 #   array of packages to exclude from automatic update
-# $service_enable:
+# [*service_enable*]
 #   enable service or not (valid: true|false)
-# $service_ensure:
+# [*service_ensure*]
 #   whether the service should be running (valid: 'stopped'|'running')
-# $notify_email:
+# [*notify_email*]
 #   enable email notifications (valid: true|false)
-# $email_to:
+# [*email_to*]
 #   recipient email address for update notifications. No effect when $notify is false
-# $email_from:
+# [*email_from*]
 #   sender email address for update notifications. No effect when $email_to is empty
-# $debug_level:
+# [*debug_level*]
 #   YUM debug level (valid: 0-10 or -1). -1 to disable debug output completely
-# $error_level:
+# [*error_level*]
 #   YUM error level (valid: 0-10). 0 to disable error output completely
-# $randomwait
+# [*randomwait*]
 #   maximum amount of time in minutes YUM randomly waits before running (valid: 0-1440). 0 to disable
 #
-# === Actions
+# === Actions:
 #
-# - Install yum-cron
-# - Configure automatic updates and email notifications
+# * Install yum-cron
+# * Configure automatic updates and email notifications
 #
-# === Requires
+# === Requires:
 #
 # (none)
 #
 # === Sample Usage:
 #
-# class { '::autoupdate':
-#   email   => 'user@example.com',
-#   exclude => ['kernel']
-# }
+#  class { '::autoupdate':
+#    email   => 'user@example.com',
+#    exclude => ['kernel']
+#  }
 #
 class autoupdate (
   $action         = 'apply',

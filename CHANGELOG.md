@@ -1,13 +1,13 @@
-###0.3.2
+###0.3.3
 
-Bug fix release
+* Make Puppet Doc compliant with RDoc markup language
+
+###0.3.2
 
 * Remove `email_from` feature from CentOS 5, since it is not supported
 * Updated documentation
 
 ###0.3.1
-
-Adjustment release
 
 * Adjust default `debug_level` depending on the platform
 * `debug_level` is enforced to `-1` when `notify_email` is set to `false`
@@ -15,8 +15,6 @@ Adjustment release
 * Removed unused `download_only` parameter (leftover)
 
 ###0.3.0
-
-Feature release
 
 * Class parameter changes. See documentation for usage
   * New class parameter `notify_email` (boolean) to disable email notifications in a more consistent way
@@ -27,13 +25,9 @@ Feature release
 
 ###0.2.0
 
-OS support release
-
 * Added support for Fedora 15+
 
 ###0.1.1
-
-Minor enhancement release
 
 * Move package exclusion logic from ERB templates to Puppet STL
 * Added To Do documentation section
