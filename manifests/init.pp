@@ -32,7 +32,7 @@
 #
 # === Requires
 #
-# (none)
+# - puppetlabs/stdlib module
 #
 # === Sample Usage:
 #
