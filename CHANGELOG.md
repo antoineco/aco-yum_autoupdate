@@ -1,3 +1,7 @@
+###0.3.3
+
+* Make Puppet Doc compliant with RDoc markup language
+
 ###0.3.2
 
 * Remove `email_from` feature from CentOS 5, since it is not supported
