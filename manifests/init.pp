@@ -24,6 +24,8 @@
 #   YUM error level (valid: 0-10). 0 to disable error output completely
 # [*randomwait*]
 #   maximum amount of time in minutes YUM randomly waits before running (valid: 0-1440). 0 to disable
+# [*update_cmd*]
+#   What kind of update to use: default, security, security-severity:Critical, minimal, minimal-security, minimal-security-severity:Critical
 #
 # === Actions:
 #
@@ -51,13 +53,14 @@ class autoupdate (
   $email_from     = 'root',
   $debug_level    = $::autoupdate::params::debug_level,
   $error_level    = 0,
+  $update_cmd     = 'default',
   $randomwait     = 60) inherits ::autoupdate::params {
   # parameters validation
   validate_re($action, '^(check|download|apply)$', '$action must be either \'check\', \'download\' or \'apply\'')
   validate_array($exclude)
   validate_bool($service_enable, $notify_email)
   validate_re($service_ensure, '^(stopped|running)$', '$service_ensure must be either \'stopped\', or \'running\'')
-  validate_string($email_to, $email_from)
+  validate_string($email_to, $email_from, $update_cmd)
   validate_re($debug_level, '^([0-9]|10|-1)$', '$debug_level must be a number between -1 and 10')
   validate_re($error_level, '^([0-9]|10)$', '$error_level must be a number between 0 and 10')
   validate_re($randomwait, '^([0-9]|[1-9][0-9]|[1-9][0-9][0-9]|1[0-3][0-9][0-9]|14[0-3][0-9]|1440)$', '$randomwait must be a number between 0 and 1440')
