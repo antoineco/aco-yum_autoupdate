@@ -25,7 +25,7 @@
 # [*randomwait*]
 #   maximum amount of time in minutes YUM randomly waits before running (valid: 0-1440). 0 to disable
 # [*update_cmd*]
-#   What kind of update to use: default, security, security-severity:Critical, minimal, minimal-security, minimal-security-severity:Critical
+#   what kind of update to use (valid: default, security, security-severity:Critical, minimal, minimal-security, minimal-security-severity:Critical)
 #
 # === Actions:
 #
@@ -63,6 +63,8 @@ class autoupdate (
   validate_string($email_to, $email_from, $update_cmd)
   validate_re($debug_level, '^([0-9]|10|-1)$', '$debug_level must be a number between -1 and 10')
   validate_re($error_level, '^([0-9]|10)$', '$error_level must be a number between 0 and 10')
+  validate_re($update_cmd, '^(default|security|security-severity:Critical|minimal|minimal-security|minimal-security-severity:Critical)$',
+    '$update_cmd must be either \'default\', \'security\', \'security-severity:Critical\', \'minimal\', \'minimal-security\' or \'minimal-security-severity:Critical\'')
   validate_re($randomwait, '^([0-9]|[1-9][0-9]|[1-9][0-9][0-9]|1[0-3][0-9][0-9]|14[0-3][0-9]|1440)$', '$randomwait must be a number between 0 and 1440')
 
   # set real parameter values
@@ -78,32 +80,8 @@ class autoupdate (
     $exclude_real = join($exclude, ' ')
   }
 
-  # package installation
-  package { 'yum-cron': ensure => present } ->
-  service { 'yum-cron':
-    ensure => $service_ensure,
-    enable => $service_enable
-  }
-
-  # config file
-  file { 'yum-cron config':
-    ensure  => present,
-    path    => $::autoupdate::params::config_path,
-    content => template("autoupdate/${::autoupdate::params::config_tpl}"),
-    mode    => '0644',
-    owner   => 'root',
-    group   => 'root'
-  }
-
-  # the yum-cron script itself might need to be overriden in order to implement the extra options provided by this module
-  if $::autoupdate::params::custom_script == true {
-    file { 'yum-cron script':
-      ensure  => present,
-      path    => $::autoupdate::params::script_path,
-      content => template("autoupdate/${::autoupdate::params::script_tpl}"),
-      mode    => '0755',
-      owner   => 'root',
-      group   => 'root'
-    }
-  }
+  # perform the actions
+  include ::autoupdate::install
+  include ::autoupdate::files
+  Class['::autoupdate::install'] -> Class ['::autoupdate::files']
 }

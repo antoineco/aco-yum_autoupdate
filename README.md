@@ -7,6 +7,7 @@
 3. [Setup](#setup)
 4. [Usage](#usage)
 5. [To Do](#to-do)
+6. [Contributors](#contributors)
 
 ##Overview
 
@@ -144,6 +145,20 @@ YUM error level. Valid values are numbers between 0 and 10. '0' to disable. Defa
 
 Note: always outputs to stdio on modern platforms, can apparently not be changed
 
+#####`update_cmd`
+
+What updates to install, based on RedHat erratas. Valid values are:
+* default (all available updates)
+* security (only packages with a security errata)
+* security-severity:Critical (only packages with a Critical security errata)
+* minimal (only upgrade to latest bugfix or security errata, ignore enhancements)
+* minimal-security (only upgrade to latest security errata, ignore bugfixes and enhancements)
+* minimal-security-severity:Critical (only upgrade to latest Critical security errata, ignore bugfixes and enhancements)
+
+Defaults to 'default'
+
+Note: only supported on RHEL 7 and Fedora 19+
+
 #####`randomwait`
 
 Maximum amount of time in minutes YUM randomly waits before running. Valid values are numbers between 0 and 1440. '0' to disable. Defaults to '60'
@@ -152,6 +167,9 @@ Maximum amount of time in minutes YUM randomly waits before running. Valid value
 
 * Add support for multiple schedules
 * Add support for passing arbitrary parameters to YUM
-* Make it Debian compatible
+
+##Contributors
+
+* [Kim Stig Andersen](https://github.com/ksaio)
 
 Features request and contributions are always welcome!

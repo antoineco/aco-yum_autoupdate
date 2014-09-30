@@ -1,6 +1,9 @@
-###0.3.3
+###0.4.0
 
+* `update_cmd` can now be defined (thanks [Kim](https://github.com/ksaio)!)
+* Deletion of the default hourly schedule on RHEL 7/Fedora 19+
 * Make Puppet Doc compliant with RDoc markup language
+* Refactoring
 
 ###0.3.2
 
