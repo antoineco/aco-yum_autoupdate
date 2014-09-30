@@ -9,7 +9,7 @@
 # minimal                            = yum --bugfix upgrade-minimal
 # minimal-security                   = yum --security upgrade-minimal
 # minimal-security-severity:Critical =  --sec-severity=Critical upgrade-minimal
-update_cmd = default
+update_cmd = <%= @update_cmd %>
 
 # Whether a message should be emitted when updates are available,
 # were downloaded, or applied.
