@@ -6,7 +6,7 @@
   "source": "git://github.com/tOnI0/aco-yum_autoupdate.git",
   "summary": "Puppet module for scheduled system updates on RHEL variants",
   "version": "0.4.1",
-  "tags": ["fedora","rhel","yum-cron","unattended","update","yum"],
+  "tags": ["unattended","update","yum"],
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
