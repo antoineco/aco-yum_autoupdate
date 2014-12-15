@@ -1,4 +1,4 @@
-# == Class: autoupdate
+# == Class: yum_autoupdate
 #
 # This module installs yum-cron on Enterprise Linux systems and configures nightly system updates.
 #
@@ -38,12 +38,12 @@
 #
 # === Sample Usage:
 #
-#  class { '::autoupdate':
+#  class { '::yum_autoupdate':
 #    email   => 'user@example.com',
 #    exclude => ['kernel']
 #  }
 #
-class autoupdate (
+class yum_autoupdate (
   $action         = 'apply',
   $exclude        = [],
   $service_enable = true,
@@ -51,10 +51,10 @@ class autoupdate (
   $notify_email   = true,
   $email_to       = 'root',
   $email_from     = 'root',
-  $debug_level    = $::autoupdate::params::debug_level,
+  $debug_level    = $::yum_autoupdate::params::debug_level,
   $error_level    = 0,
   $update_cmd     = 'default',
-  $randomwait     = 60) inherits ::autoupdate::params {
+  $randomwait     = 60) inherits ::yum_autoupdate::params {
   # parameters validation
   validate_re($action, '^(check|download|apply)$', '$action must be either \'check\', \'download\' or \'apply\'')
   validate_array($exclude)
@@ -81,7 +81,7 @@ class autoupdate (
   }
 
   # perform the actions
-  include ::autoupdate::install
-  include ::autoupdate::files
-  Class['::autoupdate::install'] -> Class ['::autoupdate::files']
+  include ::yum_autoupdate::install
+  include ::yum_autoupdate::files
+  Class['::yum_autoupdate::install'] -> Class ['::yum_autoupdate::files']
 }

@@ -1,25 +1,25 @@
-class autoupdate::files {
+class yum_autoupdate::files {
   # The base class must be included first
-  if !defined(Class['autoupdate']) {
-    fail('You must include the autoupdate base class before using any autoupdate sub class')
+  if !defined(Class['yum_autoupdate']) {
+    fail('You must include the yum_autoupdate base class before using any yum_autoupdate sub class')
   }
 
   # config file
   file { 'yum-cron config':
     ensure  => present,
-    path    => $::autoupdate::params::config_path,
-    content => template("autoupdate/${::autoupdate::params::config_tpl}"),
+    path    => $::yum_autoupdate::params::config_path,
+    content => template("yum_autoupdate/${::yum_autoupdate::params::config_tpl}"),
     mode    => '0644',
     owner   => 'root',
     group   => 'root'
   }
 
   # the yum-cron script itself might need to be overriden in order to implement the extra options provided by this module
-  if $::autoupdate::params::custom_script == true {
+  if $::yum_autoupdate::params::custom_script == true {
     file { 'yum-cron script':
       ensure  => present,
-      path    => $::autoupdate::params::script_path,
-      content => template("autoupdate/${::autoupdate::params::script_tpl}"),
+      path    => $::yum_autoupdate::params::script_path,
+      content => template("yum_autoupdate/${::yum_autoupdate::params::script_tpl}"),
       mode    => '0755',
       owner   => 'root',
       group   => 'root'

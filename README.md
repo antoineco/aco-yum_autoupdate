@@ -1,4 +1,4 @@
-#autoupdate
+#yum_autoupdate
 
 ####Table of Contents
 
@@ -11,7 +11,7 @@
 
 ##Overview
 
-The autoupdate module allows you to configure automatic updates on all [RHEL variants](http://en.wikipedia.org/wiki/List_of_Linux_distributions#RHEL-based) including Fedora.
+The yum_autoupdate module allows you to configure automatic updates on all [RHEL variants](http://en.wikipedia.org/wiki/List_of_Linux_distributions#RHEL-based) including Fedora.
 
 ##Module description
 
@@ -19,7 +19,7 @@ The yum-cron service enables scheduled system updates on RHEL-based systems. Thi
 
 ##Setup
 
-autoupdate will affect the following parts of your system:
+yum_autoupdate will affect the following parts of your system:
 
 * yum-cron package and service
 * yum cron configuration file(s)
@@ -28,7 +28,7 @@ autoupdate will affect the following parts of your system:
 Including the main class is enough to get started. It will enable automatic updates check via a cron.daily task and apply all available updates whenever possible. Summary emails are sent to the local root user.
 
 ```puppet
-include ::autoupdate
+include ::yum_autoupdate
 ```
 
 ####A couple of examples
@@ -36,7 +36,7 @@ include ::autoupdate
 Disable emails and just download updates, do not apply
 
 ```puppet
-class { '::autoupdate':
+class { '::yum_autoupdate':
   notify_email => false,
   action       => 'download'
 }
@@ -45,7 +45,7 @@ class { '::autoupdate':
 Suppress debug output completely, but keep logging possible errors
 
 ```puppet
-class { '::autoupdate':
+class { '::yum_autoupdate':
   …
   debug_level => '-1',
   error_level => '3'
@@ -55,7 +55,7 @@ class { '::autoupdate':
 Send emails to a different receiver (local root account by default) and from a specific sender address 
 
 ```puppet
-class { '::autoupdate':
+class { '::yum_autoupdate':
   …
   email_to   => 'admin@example.com',
   email_from => 'sysupdates@example.com'
@@ -65,7 +65,7 @@ class { '::autoupdate':
 Let crond send emails instead of mailx
 
 ```puppet
-class { '::autoupdate':
+class { '::yum_autoupdate':
   …
   email_to => ''
 }
@@ -74,7 +74,7 @@ class { '::autoupdate':
 Disable random delay
 
 ```puppet
-class { '::autoupdate':
+class { '::yum_autoupdate':
   …
   randomwait => '0'
 }
@@ -83,7 +83,7 @@ class { '::autoupdate':
 Exclude specific packages
 
 ```puppet
-class { '::autoupdate':
+class { '::yum_autoupdate':
   …
   exclude => ['httpd','puppet*']
 }
@@ -91,11 +91,11 @@ class { '::autoupdate':
 
 ##Usage
 
-####Class: `autoupdate`
+####Class: `yum_autoupdate`
 
 Primary class and entry point of the module.
 
-**Parameters within `autoupdate`:**
+**Parameters within `yum_autoupdate`:**
 
 #####`action`
 

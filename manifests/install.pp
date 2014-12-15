@@ -1,13 +1,13 @@
-class autoupdate::install {
+class yum_autoupdate::install {
   # The base class must be included first
-  if !defined(Class['autoupdate']) {
-    fail('You must include the autoupdate base class before using any autoupdate sub class')
+  if !defined(Class['yum_autoupdate']) {
+    fail('You must include the yum_autoupdate base class before using any yum_autoupdate sub class')
   }
 
   # package installation and service configuration
   package { 'yum-cron': ensure => present } ->
   service { 'yum-cron':
-    ensure => $::autoupdate::service_ensure,
-    enable => $::autoupdate::service_enable
+    ensure => $::yum_autoupdate::service_ensure,
+    enable => $::yum_autoupdate::service_enable
   }
 }

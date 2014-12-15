@@ -1,6 +1,6 @@
-# == Class: autoupdate::params
+# == Class: yum_autoupdate::params
 #
-class autoupdate::params {
+class yum_autoupdate::params {
   case $::osfamily {
     'RedHat' : {
       case $::operatingsystem {

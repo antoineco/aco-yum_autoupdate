@@ -1,12 +1,12 @@
 {
   "author": "Antoine Cotten",
   "license": "Apache License, Version 2.0",
-  "name": "aco-autoupdate",
-  "project_page": "https://github.com/tOnI0/aco-autoupdate",
-  "source": "git://github.com/tOnI0/aco-autoupdate.git",
+  "name": "aco-yum_autoupdate",
+  "project_page": "https://github.com/tOnI0/aco-yum_autoupdate",
+  "source": "git://github.com/tOnI0/aco-yum_autoupdate.git",
   "summary": "Puppet module for scheduled system updates on RHEL variants",
   "version": "0.4.0",
-  "tags": ["fedora","rhel","yum-cron","cron","yum","autoupdate"],
+  "tags": ["fedora","rhel","yum-cron","cron","yum","yum_autoupdate"],
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",

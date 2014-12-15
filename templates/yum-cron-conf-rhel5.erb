@@ -7,7 +7,7 @@ CHECK_ONLY=<% if @action == 'check' -%>yes<% else -%>no<% end %>
 # Implies CHECK_ONLY=yes (gotta check first to see what to download)
 DOWNLOAD_ONLY=<% if @action == 'download' -%>yes<% else -%>no<% end %>
 
-## extra options from the rdi-autoupdate Puppet module
+## extra options from the aco-yum_autoupdate Puppet module
 
 # Pass any given paramter to yum, as run in all the scripts invoked
 # by this package.  Be aware that this is global, and yum is invoked in 
