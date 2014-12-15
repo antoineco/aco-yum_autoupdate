@@ -99,69 +99,68 @@ Primary class and entry point of the module.
 
 #####`action`
 
-Mode in which yum-crom should perform. Valid values are 'check', 'download' and 'apply'. Defaults to 'apply'
+Mode in which yum-cron should perform. Valid values are `check`, `download` and `apply`. Defaults to `apply`
 
 #####`exclude`
 
-Array of packages to exclude from automatic update. Defaults to '[]'
+Array of packages to exclude from automatic update. Defaults to `[]`
 
 #####`service_enable`
 
-Enable the service or not. Valid values are 'true' and 'false'. Defaults to 'true'
+Enable the service or not. Boolean value. Defaults to `true`
 
 #####`service_ensure`
 
-Whether the service should be running. Valid values are 'stopped' and 'running'. Defaults to 'running'
+Whether the service should be running. Valid values are `stopped` and `running`. Defaults to `running`
 
 #####`notify_email`
 
-Enable email notifications. Valid values are 'true' and 'false'. Defaults to 'true'  
+Enable email notifications. Boolean value. Defaults to `true`  
 It is recommended to also adjust debug/error levels accordingly (see below) 
 
 #####`email_to`
 
-Recipient email address for update notifications. Defaults to 'root' (local user)  
+Recipient email address for update notifications. Defaults to `root` (local user)  
 An empty string forces the output to stdio, so emails will be sent by crond
 
 #####`email_from`
 
-Sender email address for update notifications. No effect when `email_to` is empty. Defaults to 'root' (local user)
+Sender email address for update notifications. No effect when `email_to` is empty. Defaults to `root` (local user)
 
-Note: not supported on CentOS 5
+*Note:* not supported on CentOS 5
 
 #####`debug_level`
 
-YUM debug level. Valid values are numbers between -1 and 10. '-1' to disable. Default depends on the platform  
+YUM debug level. Valid values are numbers between `-1` and `10`. `-1` to disable. Default depends on the platform  
 Enforced to `-1` when `notify_email` is `false`
 
-Notes:
-
+*Notes:*
 * `-1` is necessary to also suppress messages from deltarpm, since `0` doesn't
 * Always outputs to stdio on modern platforms, can apparently not be changed
 
 #####`error_level`
 
-YUM error level. Valid values are numbers between 0 and 10. '0' to disable. Defaults to '0'
+YUM error level. Valid values are numbers between `0` and `10`. `0` to disable. Defaults to `0`
 
-Note: always outputs to stdio on modern platforms, can apparently not be changed
+*Note:* always outputs to stdio on modern platforms, can apparently not be changed
 
 #####`update_cmd`
 
 What updates to install, based on RedHat erratas. Valid values are:
-* default (all available updates)
-* security (only packages with a security errata)
-* security-severity:Critical (only packages with a Critical security errata)
-* minimal (only upgrade to latest bugfix or security errata, ignore enhancements)
-* minimal-security (only upgrade to latest security errata, ignore bugfixes and enhancements)
-* minimal-security-severity:Critical (only upgrade to latest Critical security errata, ignore bugfixes and enhancements)
+* `default` (all available updates)
+* `security` (only packages with a security errata)
+* `security-severity:Critical` (only packages with a Critical security errata)
+* `minimal` (only upgrade to latest bugfix or security errata, ignore enhancements)
+* `minimal-security` (only upgrade to latest security errata, ignore bugfixes and enhancements)
+* `minimal-security-severity:Critical` (only upgrade to latest Critical security errata, ignore bugfixes and enhancements)
 
-Defaults to 'default'
+Defaults to `default`
 
 Note: only supported on RHEL 7 and Fedora 19+
 
 #####`randomwait`
 
-Maximum amount of time in minutes YUM randomly waits before running. Valid values are numbers between 0 and 1440. '0' to disable. Defaults to '60'
+Maximum amount of time in minutes YUM randomly waits before running. Valid values are numbers between `0` and `1440`. `0` to disable. Defaults to `60`
 
 ##To Do
 
