@@ -1,3 +1,8 @@
+###0.4.1
+
+* Improve code quality, doc and metadata
+* Support Fedora 21
+
 ###0.4.0
 
 * `update_cmd` can now be defined (thanks [Kim](https://github.com/ksaio)!)
