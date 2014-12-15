@@ -7,18 +7,18 @@ class yum_autoupdate::params {
         # Fedora does not follow RHEL release numbers
         'Fedora' : {
           case $::operatingsystemmajrelease {
-            /19|20/    : {
+            /19|20|21/    : {
               $config_path = '/etc/yum/yum-cron.conf'
-              $config_tpl = 'yum-cron-conf-fc1920.erb'
+              $config_tpl = 'yum-cron-conf-fc19.erb'
               $custom_script = false
               $debug_level = '-1'
             }
             /16|17|18/ : {
               $config_path = '/etc/sysconfig/yum-cron'
-              $config_tpl = 'yum-cron-conf-fc161718.erb'
+              $config_tpl = 'yum-cron-conf-fc16.erb'
               $custom_script = true
               $script_path = '/usr/sbin/yum-cron'
-              $script_tpl = 'yum-cron-script-fc161718.erb'
+              $script_tpl = 'yum-cron-script-fc16.erb'
               $debug_level = 1
             }
             '15'       : {

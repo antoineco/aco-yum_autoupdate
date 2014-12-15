@@ -23,7 +23,7 @@ yum_autoupdate will affect the following parts of your system:
 
 * yum-cron package and service
 * yum cron configuration file(s)
-* yum-cron script itself to implement extra features provided by this module
+* yum-cron script on older distributions
 
 Including the main class is enough to get started. It will enable automatic updates check via a cron.daily task and apply all available updates whenever possible. Summary emails are sent to the local root user.
 

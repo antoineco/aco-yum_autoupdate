@@ -1,3 +1,5 @@
+# == Class: yum_autoupdate::install
+#
 class yum_autoupdate::install {
   # The base class must be included first
   if !defined(Class['yum_autoupdate']) {

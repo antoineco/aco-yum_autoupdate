@@ -1,3 +1,5 @@
+# == Class: yum_autoupdate::files
+#
 class yum_autoupdate::files {
   # The base class must be included first
   if !defined(Class['yum_autoupdate']) {
@@ -8,7 +10,7 @@ class yum_autoupdate::files {
   file { 'yum-cron config':
     ensure  => present,
     path    => $::yum_autoupdate::params::config_path,
-    content => template("yum_autoupdate/${::yum_autoupdate::params::config_tpl}"),
+    content => template("${module_name}/${::yum_autoupdate::params::config_tpl}"),
     mode    => '0644',
     owner   => 'root',
     group   => 'root'
@@ -19,7 +21,7 @@ class yum_autoupdate::files {
     file { 'yum-cron script':
       ensure  => present,
       path    => $::yum_autoupdate::params::script_path,
-      content => template("yum_autoupdate/${::yum_autoupdate::params::script_tpl}"),
+      content => template("${module_name}/${::yum_autoupdate::params::script_tpl}"),
       mode    => '0755',
       owner   => 'root',
       group   => 'root'
@@ -27,6 +29,6 @@ class yum_autoupdate::files {
   }
 
   # temporary!
-  # we don't need these, the user will have the option to add schedules in a future version
+  # we don't need these, the user will have the option to add custom schedules in a future version
   file { ['/etc/yum/yum-cron-hourly.conf', '/etc/cron.hourly/0yum-hourly.cron']: ensure => absent }
 }
