@@ -1,0 +1,20 @@
+# ******************
+# Managed by Puppet
+# ******************
+
+YUM_PARAMETER=<%= @exclude_real %>
+CHECK_ONLY=<% if @action == 'check' -%>yes<% else -%>no<% end %>
+DOWNLOAD_ONLY=<% if @action == 'download' -%>yes<% else -%>no<% end %>
+CHECK_FIRST=no
+ERROR_LEVEL=<%= @error_level %>
+DEBUG_LEVEL=<%= @debug_level_real %>
+MAILTO=<%= @email_to %>
+#SYSTEMNAME=""
+RANDOMWAIT=<%= @randomwait %>
+#DAYS_OF_WEEK="0123456" 
+CLEANDAY="0"
+SERVICE_WAITS=yes
+SERVICE_WAIT_TIME=300
+
+## extra options from the aco-yum_autoupdate Puppet module
+MAILFROM=<%= @email_from %>

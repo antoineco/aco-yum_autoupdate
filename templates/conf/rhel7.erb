@@ -1,0 +1,34 @@
+# ******************
+# Managed by Puppet
+# ******************
+
+[commands]
+update_cmd = <%= @update_cmd %>
+update_messages = <% if @notify_email -%>yes<% else -%>no<% end %>
+download_updates = <% if @action =~ /download|apply/ -%>yes<% else -%>no<% end %>
+apply_updates = <% if @action == 'apply' -%>yes<% else -%>no<% end %>
+random_sleep = <%= @randomwait %>
+
+[emitters]
+system_name = None
+emit_via = <% if @email_to.empty? -%>stdio<% else -%>email<% end %>
+output_width = 80
+
+[email]
+email_from = <%= @email_from %>
+email_to = <%= @email_to %>
+email_host = localhost
+
+[groups]
+group_list = None
+group_package_types = mandatory, default
+
+[base]
+debuglevel = <%= @debug_level_real %>
+errorlevel = <%= @error_level %>
+# skip_broken = True
+mdpolicy = group:main
+# assumeyes = True
+<% if ! @exclude.empty? -%>
+exclude=<%= @exclude_real %>
+<% end -%>

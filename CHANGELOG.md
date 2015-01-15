@@ -1,3 +1,7 @@
+###0.5.0
+
+* Drop support for Fedora < 17
+
 ###0.4.1
 
 * Improve code quality, doc and metadata

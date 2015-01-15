@@ -15,8 +15,8 @@ LOCKFILE=$LOCKDIR/pidfile
 TSLOCK=$LOCKDIR/ts.lock
 
 # Grab config settings
-if [ -f /etc/sysconfig/yum-cron ]; then
-  source /etc/sysconfig/yum-cron
+if [ -f <%= @config_path %> ]; then
+  source <%= @config_path %>
 fi
 # set default for SYSTEMNAME
 [ -z "$SYSTEMNAME" ]  && SYSTEMNAME=$(hostname) 

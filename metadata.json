@@ -5,7 +5,7 @@
   "project_page": "https://github.com/tOnI0/aco-yum_autoupdate",
   "source": "git://github.com/tOnI0/aco-yum_autoupdate.git",
   "summary": "Puppet module for scheduled system updates on RHEL variants",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "tags": ["unattended","update","yum"],
   "dependencies": [
     {
@@ -49,8 +49,6 @@
     {
       "operatingsystem": "Fedora",
       "operatingsystemrelease": [
-        "15",
-        "16",
         "17",
         "18",
         "19",

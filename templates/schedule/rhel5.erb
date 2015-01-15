@@ -16,8 +16,8 @@ mkdir $LOCKFILE 2>/dev/null || exit
 trap "{ rmdir $LOCKFILE 2>/dev/null ; exit 255; }" INT TERM EXIT
 
 # Grab config settings
-if [ -f /etc/sysconfig/yum-cron ]; then
-  source /etc/sysconfig/yum-cron
+if [ -f <%= @config_path %> ]; then
+  source <%= @config_path %>
 fi
 
 # if DOWNLOAD_ONLY is set then we force CHECK_ONLY too.
