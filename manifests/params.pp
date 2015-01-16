@@ -7,18 +7,11 @@ class yum_autoupdate::params {
         'Fedora' : {
           case $::operatingsystemmajrelease {
             /^(19|20|21)$/ : {
-              $config_path = '/etc/yum/yum-cron.conf'
+              $default_config_path = '/etc/yum/yum-cron.conf'
+              $default_schedule_path = '/etc/cron.daily/0yum-daily.cron'
               $conf_tpl = 'rhel7.erb'
               $schedule_tpl = 'rhel7.erb'
-              $debug_level = '-1'
-              $default_schedule_path = '/etc/cron.daily/0yum-daily.cron'
-            }
-            /^(17|18)$/    : {
-              $config_path = '/etc/sysconfig/yum-cron'
-              $conf_tpl = 'rhel6.erb'
-              $schedule_tpl = 'fc17.erb'
-              $debug_level = 1
-              $default_schedule_path = '/etc/cron.daily/0yum-update'
+              $debug_level = -1
             }
             default        : {
               fail("Unsupported OS version ${::operatingsystemmajrelease}")
@@ -29,25 +22,19 @@ class yum_autoupdate::params {
         default  : {
           case $::operatingsystemmajrelease {
             '7'     : {
-              $config_path = '/etc/yum/yum-cron.conf'
-              $debug_level = '-1'
-              $conf_tpl = 'rhel7.erb'
-              $schedule_tpl = 'rhel7.erb'
+              $default_config_path = '/etc/yum/yum-cron.conf'
               $default_schedule_path = '/etc/cron.daily/0yum-daily.cron'
+              $debug_level = -1
             }
             '6'     : {
-              $config_path = '/etc/sysconfig/yum-cron'
-              $debug_level = 1
-              $conf_tpl = 'rhel6.erb'
-              $schedule_tpl = 'rhel6.erb'
+              $default_config_path = '/etc/sysconfig/yum-cron'
               $default_schedule_path = '/etc/cron.daily/0yum.cron'
+              $debug_level = 1
             }
             '5'     : {
-              $config_path = '/etc/sysconfig/yum-cron'
-              $debug_level = 1
-              $conf_tpl = 'rhel5.erb'
-              $schedule_tpl = 'rhel5.erb'
+              $default_config_path = '/etc/sysconfig/yum-cron'
               $default_schedule_path = '/etc/cron.daily/yum.cron'
+              $debug_level = 1
             }
             default : {
               fail("Unsupported OS version ${::operatingsystemmajrelease}")
@@ -55,6 +42,8 @@ class yum_autoupdate::params {
           }
         }
       }
+      $conf_tpl = "rhel${::operatingsystemmajrelease}.erb"
+      $schedule_tpl = "rhel${::operatingsystemmajrelease}.erb"
     }
     default  : {
       fail("Unsupported OS family ${::osfamily}")

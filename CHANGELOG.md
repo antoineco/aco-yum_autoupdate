@@ -1,6 +1,8 @@
 ###0.5.0
 
-* Drop support for Fedora < 17
+* Add custom schedules via the `yum_autoupdate::schedule` defined type
+* Drop support for Fedora 17 and 18
+* Compatible with future parser
 
 ###0.4.1
 

@@ -73,13 +73,13 @@ class yum_autoupdate (
   validate_re($update_cmd, '^(default|security|security-severity:Critical|minimal|minimal-security|minimal-security-severity:Critical)$', '$update_cmd must be either \'default\', \'security\', \'security-severity:Critical\', \'minimal\', \'minimal-security\' or \'minimal-security-severity:Critical\'')
   if ($randomwait < 0) or ($randomwait > 1440) { fail('$randomwait must be a number between 0 and 1440') }
 
-  # set real parameter values
+  # set real debug level
   $debug_level_real = $notify_email ? {
-    false   => '-1',
+    false   => -1,
     default => $debug_level,
   }
 
-  if ($::operatingsystem == 'Fedora' and $::operatingsystemmajrelease < 19) or ($::operatingsystem != 'Fedora' and $::operatingsystemmajrelease < 7) {
+  if $::operatingsystem != 'Fedora' and $::operatingsystemmajrelease < 7 {
     $exclude_real = join(prefix($exclude, '--exclude='), '\ ')
   } else {
     $exclude_real = join($exclude, ' ')
@@ -102,36 +102,23 @@ class yum_autoupdate (
   # create a more suitable location for our scripts
   file { '/etc/yum/schedules': ensure => directory }
 
-  # on Fedora 17 and 18, edit the script in place
-  if $::operatingsystem == 'Fedora' and $::operatingsystemmajrelease < 19 {
-    file { 'yum-cron script':
-      ensure  => present,
-      path    => '/usr/sbin/yum-cron',
-      content => template("${module_name}/script/fc17.erb"),
-      mode    => '0755'
-    }
-  }
-
   # config file
-  # Template uses:
-  # - 
+  $config_path = $yum_autoupdate::params::default_config_path
   if $default_schedule {
     file { 'yum-cron default config':
       ensure  => present,
-      path    => $yum_autoupdate::params::config_path,
+      path    => $yum_autoupdate::params::default_config_path,
       content => template("${module_name}/conf/${yum_autoupdate::params::conf_tpl}"),
       mode    => '0644'
     }
   } else {
     file { 'yum-cron default config':
       ensure => absent,
-      path   => $yum_autoupdate::params::config_path
+      path   => $yum_autoupdate::params::default_config_path
     }
   }
 
   # default daily schedule
-  # Template uses:
-  # - 
   if $default_schedule {
     file { 'yum-cron default schedule':
       ensure  => present,
@@ -148,7 +135,7 @@ class yum_autoupdate (
 
   # clear default hourly schedule on more recent OSes
   # it can be recreated and customized using a 'schedule' resource
-  if ($::operatingsystem == 'Fedora' and $::operatingsystemmajrelease >= 19) or ($::operatingsystemmajrelease >= 7) {
+  if $::operatingsystem == 'Fedora' or ($::operatingsystem != 'Fedora' and $::operatingsystemmajrelease >= 7) {
     unless $default_hourly {
       file { ['/etc/yum/yum-cron-hourly.conf', '/etc/cron.hourly/0yum-hourly.cron']: ensure => absent }
     }

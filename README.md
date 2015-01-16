@@ -47,8 +47,8 @@ Suppress debug output completely, but keep logging possible errors
 ```puppet
 class { '::yum_autoupdate':
   …
-  debug_level => '-1',
-  error_level => '3'
+  debug_level => -1,
+  error_level => 3
 }
 ```
 
@@ -76,7 +76,7 @@ Disable random delay
 ```puppet
 class { '::yum_autoupdate':
   …
-  randomwait => '0'
+  randomwait => 0
 }
 ```
 
@@ -98,39 +98,31 @@ Primary class and entry point of the module.
 **Parameters within `yum_autoupdate`:**
 
 #####`action`
-
 Mode in which yum-cron should perform. Valid values are `check`, `download` and `apply`. Defaults to `apply`
 
 #####`exclude`
-
 Array of packages to exclude from automatic update. Defaults to `[]`
 
 #####`service_enable`
-
 Enable the service or not. Boolean value. Defaults to `true`
 
 #####`service_ensure`
-
 Whether the service should be running. Valid values are `stopped` and `running`. Defaults to `running`
 
 #####`notify_email`
-
 Enable email notifications. Boolean value. Defaults to `true`  
 It is recommended to also adjust debug/error levels accordingly (see below) 
 
 #####`email_to`
-
 Recipient email address for update notifications. Defaults to `root` (local user)  
 An empty string forces the output to stdio, so emails will be sent by crond
 
 #####`email_from`
-
 Sender email address for update notifications. No effect when `email_to` is empty. Defaults to `root` (local user)
 
 *Note:* not supported on CentOS 5
 
 #####`debug_level`
-
 YUM debug level. Valid values are numbers between `-1` and `10`. `-1` to disable. Default depends on the platform  
 Enforced to `-1` when `notify_email` is `false`
 
@@ -139,13 +131,11 @@ Enforced to `-1` when `notify_email` is `false`
 * Always outputs to stdio on modern platforms, can apparently not be changed
 
 #####`error_level`
-
 YUM error level. Valid values are numbers between `0` and `10`. `0` to disable. Defaults to `0`
 
 *Note:* always outputs to stdio on modern platforms, can apparently not be changed
 
 #####`update_cmd`
-
 What updates to install, based on RedHat erratas. Valid values are:
 * `default` (all available updates)
 * `security` (only packages with a security errata)
@@ -156,7 +146,7 @@ What updates to install, based on RedHat erratas. Valid values are:
 
 Defaults to `default`
 
-Note: only supported on RHEL 7 and Fedora 19+
+*Note:* only supported on RHEL 7 and Fedora
 
 #####`randomwait`
 
@@ -164,7 +154,6 @@ Maximum amount of time in minutes YUM randomly waits before running. Valid value
 
 ##To Do
 
-* Add support for multiple schedules
 * Add support for passing arbitrary parameters to YUM
 
 ##Contributors
