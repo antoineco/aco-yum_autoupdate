@@ -16,9 +16,19 @@ define yum_autoupdate::schedule (
   $monthday     = undef,
   $weekday      = undef,
   $special      = undef) {
+  # parameters validation
+  validate_re($action, '^(check|download|apply)$', '$action must be either \'check\', \'download\' or \'apply\'')
+  validate_array($exclude)
+  validate_bool($notify_email)
+  validate_string($email_to, $email_from, $update_cmd)
+  if ($debug_level < -1) or ($error_level > 10) { fail('$debug_level must be a number between -1 and 10') }
+  if ($error_level < 0) or ($error_level > 10) { fail('$error_level must be a number between 0 and 10') }
+  validate_re($update_cmd, '^(default|security|security-severity:Critical|minimal|minimal-security|minimal-security-severity:Critical)$', '$update_cmd must be either \'default\', \'security\', \'security-severity:Critical\', \'minimal\', \'minimal-security\' or \'minimal-security-severity:Critical\'')
+  if ($randomwait < 0) or ($randomwait > 1440) { fail('$randomwait must be a number between 0 and 1440') }
+
   # set real debug level
   $debug_level_real = $notify_email ? {
-    false   => -1,
+    false   => '-1',
     default => $debug_level,
   }
 

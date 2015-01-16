@@ -63,10 +63,10 @@ class yum_autoupdate (
   $update_cmd       = 'default',
   $randomwait       = 60) inherits yum_autoupdate::params {
   # parameters validation
+  validate_bool($service_enable, $notify_email, $default_schedule, $default_hourly)
+  validate_re($service_ensure, '^(stopped|running)$', '$service_ensure must be either \'stopped\', or \'running\'')
   validate_re($action, '^(check|download|apply)$', '$action must be either \'check\', \'download\' or \'apply\'')
   validate_array($exclude)
-  validate_bool($service_enable, $notify_email)
-  validate_re($service_ensure, '^(stopped|running)$', '$service_ensure must be either \'stopped\', or \'running\'')
   validate_string($email_to, $email_from, $update_cmd)
   if ($debug_level < -1) or ($error_level > 10) { fail('$debug_level must be a number between -1 and 10') }
   if ($error_level < 0) or ($error_level > 10) { fail('$error_level must be a number between 0 and 10') }
@@ -75,7 +75,7 @@ class yum_autoupdate (
 
   # set real debug level
   $debug_level_real = $notify_email ? {
-    false   => -1,
+    false   => '-1',
     default => $debug_level,
   }
 
@@ -133,7 +133,7 @@ class yum_autoupdate (
     }
   }
 
-  # clear default hourly schedule on more recent OSes
+  # clear default hourly schedule on recent OSes
   # it can be recreated and customized using a 'schedule' resource
   if $::operatingsystem == 'Fedora' or ($::operatingsystem != 'Fedora' and $::operatingsystemmajrelease >= 7) {
     unless $default_hourly {
