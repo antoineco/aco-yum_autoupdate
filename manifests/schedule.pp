@@ -1,3 +1,59 @@
+# == Define: yum_autoupdate::schedule
+#
+# Creates yum-cron custom schedules
+#
+# === Parameters:
+#
+# [*action*]
+#   mode in which yum-cron should perform (valid: 'check', 'download', 'apply')
+# [*exclude*]
+#   packages to exclude from automatic update (array)
+# [*notify_email*]
+#   enable email notifications (boolean)
+# [*email_to*]
+#   recipient email address for update notifications. No effect when $notify is false
+# [*email_from*]
+#   sender email address for update notifications. No effect when $email_to is empty
+# [*debug_level*]
+#   YUM debug level (valid: 0-10 or -1). -1 to disable debug output completely
+# [*error_level*]
+#   YUM error level (valid: 0-10). 0 to disable error output completely
+# [*randomwait*]
+#   maximum amount of time in minutes YUM randomly waits before running (valid: 0-1440). 0 to disable
+# [*update_cmd*]
+#   what kind of update to use (valid: default, security, security-severity:Critical, minimal, minimal-security,
+#   minimal-security-severity:Critical)
+# [*user*]
+#   the user who owns the cron job
+# [*hour*]
+#   the hour at which to run the cron job
+# [*minute*]
+#   the minute at which to run the cron job
+# [*month*]
+#   the month of the year on which to run the cron job
+# [*monthday*]
+#   the day of the month on which to run the cron job
+# [*weekday*]
+#   the weekday on which to run the cron job
+# [*special*]
+#   a special value (valid: ‘reboot’, ‘annually’, 'monthly', 'weekly', 'daily', 'hourly')
+#
+# === Actions:
+#
+# * Create yum-cron schedule
+#
+# === Requires:
+#
+# * yum_autoupdate class
+#
+# === Sample Usage:
+#
+#  ::yum_autoupdate::schedule { 'hourly':
+#    action       => 'check',
+#    notify_email => false,
+#    special      => 'hourly'
+#  }
+#
 define yum_autoupdate::schedule (
   $action       = 'apply',
   $exclude      = [],
@@ -10,12 +66,17 @@ define yum_autoupdate::schedule (
   $randomwait   = 60,
   #cron attributes,
   $user         = root,
-  $hour         = undef, 
+  $hour         = undef,
   $minute       = undef,
   $month        = undef,
   $monthday     = undef,
   $weekday      = undef,
   $special      = undef) {
+  # The base class must be included first
+  if !defined(Class['yum_autoupdate']) {
+    fail('You must include the yum_autoupdate base class before using any yum_autoupdate defined resources')
+  }
+
   # parameters validation
   validate_re($action, '^(check|download|apply)$', '$action must be either \'check\', \'download\' or \'apply\'')
   validate_array($exclude)
@@ -31,6 +92,9 @@ define yum_autoupdate::schedule (
     false   => '-1',
     default => $debug_level,
   }
+  
+  # remove potential spaces from name
+  $name_real = delete($name, ' ')
 
   if $::operatingsystem != 'Fedora' and $::operatingsystemmajrelease < 7 {
     $exclude_real = join(prefix($exclude, '--exclude='), '\ ')
@@ -39,7 +103,7 @@ define yum_autoupdate::schedule (
   }
 
   # config file
-  $config_path = "${yum_autoupdate::params::default_config_path}_${name}"
+  $config_path = "${yum_autoupdate::params::default_config_path}_${name_real}"
   file { "yum-cron ${name} config":
     ensure  => present,
     path    => $config_path,
@@ -50,12 +114,12 @@ define yum_autoupdate::schedule (
   # schedule
   file { "yum-cron ${name} schedule":
     ensure  => present,
-    path    => "/etc/yum/schedules/yum-cron_${name}",
+    path    => "/etc/yum/schedules/yum-cron_${name_real}",
     content => template("${module_name}/schedule/${yum_autoupdate::params::schedule_tpl}"),
     mode    => '0755'
   } ->
   cron { "yum-cron ${name} schedule":
-    command  => "/etc/yum/schedules/yum-cron_${name}",
+    command  => "/etc/yum/schedules/yum-cron_${name_real}",
     user     => $user,
     hour     => $hour,
     minute   => $minute,

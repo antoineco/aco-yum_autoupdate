@@ -1,25 +1,25 @@
 # == Class: yum_autoupdate
 #
-# This module installs yum-cron on Enterprise Linux systems and configures nightly system updates.
+# This module installs yum-cron on Enterprise Linux systems and configures unattended system updates
 #
 # === Parameters:
 #
+# [*service_ensure*]
+#   whether the service should be running (valid: 'stopped', 'running')
 # [*service_enable*]
 #   enable service (boolean)
-# [*service_ensure*]
-#   whether the service should be running (valid: 'stopped'|'running')
 # [*default_schedule*]
-#
-# [*default_hourly*]
-#
+#   wheter to enable and configure the default daily schedule (boolean)
+# [*keep_default_hourly*]
+#   wheter to keep the default hourly schedule (boolean)
 # [*action*]
-#   mode in which yum-crom should perform (valid: 'check'|'download'|'apply')
+#   mode in which yum-cron should perform (valid: 'check', 'download', 'apply')
 # [*exclude*]
 #   packages to exclude from automatic update (array)
 # [*notify_email*]
 #   enable email notifications (boolean)
 # [*email_to*]
-#   recipient email address for update notifications. No effect when $notify is false
+#   recipient email address for update notifications. No effect when $notify_email is false
 # [*email_from*]
 #   sender email address for update notifications. No effect when $email_to is empty
 # [*debug_level*]
@@ -44,27 +44,28 @@
 # === Sample Usage:
 #
 #  class { '::yum_autoupdate':
+#    action  => 'apply',
 #    email   => 'user@example.com',
 #    exclude => ['kernel']
 #  }
 #
 class yum_autoupdate (
-  $service_enable   = true,
-  $service_ensure   = 'running',
-  $default_schedule = true,
-  $default_hourly   = false,
-  $action           = 'apply',
-  $exclude          = [],
-  $notify_email     = true,
-  $email_to         = 'root',
-  $email_from       = 'root',
-  $debug_level      = $yum_autoupdate::params::debug_level,
-  $error_level      = 0,
-  $update_cmd       = 'default',
-  $randomwait       = 60) inherits yum_autoupdate::params {
+  $service_ensure      = 'running',
+  $service_enable      = true,
+  $default_schedule    = true,
+  $keep_default_hourly = false,
+  $action              = 'apply',
+  $exclude             = [],
+  $notify_email        = true,
+  $email_to            = 'root',
+  $email_from          = 'root',
+  $debug_level         = $yum_autoupdate::params::debug_level,
+  $error_level         = 0,
+  $update_cmd          = 'default',
+  $randomwait          = 60) inherits yum_autoupdate::params {
   # parameters validation
-  validate_bool($service_enable, $notify_email, $default_schedule, $default_hourly)
   validate_re($service_ensure, '^(stopped|running)$', '$service_ensure must be either \'stopped\', or \'running\'')
+  validate_bool($service_enable, $notify_email, $default_schedule, $keep_default_hourly)
   validate_re($action, '^(check|download|apply)$', '$action must be either \'check\', \'download\' or \'apply\'')
   validate_array($exclude)
   validate_string($email_to, $email_from, $update_cmd)
@@ -136,7 +137,7 @@ class yum_autoupdate (
   # clear default hourly schedule on recent OSes
   # it can be recreated and customized using a 'schedule' resource
   if $::operatingsystem == 'Fedora' or ($::operatingsystem != 'Fedora' and $::operatingsystemmajrelease >= 7) {
-    unless $default_hourly {
+    unless $keep_default_hourly {
       file { ['/etc/yum/yum-cron-hourly.conf', '/etc/cron.hourly/0yum-hourly.cron']: ensure => absent }
     }
   }

@@ -5,7 +5,12 @@
 1. [Overview](#overview)
 2. [Module Description](#module-description)
 3. [Setup](#setup)
+  * [A couple of examples](#a-couple-of-examples)
 4. [Usage](#usage)
+  * [Classes and Defined Types](#classes-and-defined-types)
+    * [Class: yum_autoupdate](#class-yum_autoupdate)
+    * [Define: yum_autoupdate::schedule](#define-yum_autoupdateschedule)
+    * [Common parameters](#common-parameters)
 5. [To Do](#to-do)
 6. [Contributors](#contributors)
 
@@ -89,6 +94,26 @@ class { '::yum_autoupdate':
 }
 ```
 
+Replace all default schedules by custom ones
+
+```puppet
+class { '::yum_autoupdate':
+  default_schedule => false
+}
+yum_autoupdate::schedule { 'weekly update':
+  action  => 'apply',
+  special => 'weekly',
+  …
+}
+yum_autoupdate::schedule { 'daily download':
+  action  => 'download',
+  hour    => '23',
+  minute  => '30',
+  weekday => '*'
+  …
+}
+```
+
 ##Usage
 
 ####Class: `yum_autoupdate`
@@ -97,17 +122,40 @@ Primary class and entry point of the module.
 
 **Parameters within `yum_autoupdate`:**
 
+#####`service_ensure`
+Whether the service should be running. Valid values are `stopped` and `running`. Defaults to `running`
+
+#####`service_enable`
+Whether to enable the yum-cron service. Boolean value. Defaults to `true`
+
+#####`default_schedule`
+Wheteher to enable the default daily schedule. If yes, configure it using the class parameters. Boolean value. Defaults to `true`
+
+#####`keep_default_hourly`
+Wheteher to keep the default hourly check. Boolean value. Defaults to `false`
+
+See also [Common parameters](#common-parameters)
+
+####Define: `yum_autoupdate::schedule`
+
+Create a yum-cron schedule
+
+**Parameters within `yum_autoupdate::schedule`:**
+
+#####`user`, `hour`, `minute`, `month`, `monthday`, `weekday`, `special`
+Please read [Puppet cron type](https://docs.puppetlabs.com/references/latest/type.html#cron)
+
+See also [Common parameters](#common-parameters)
+
+####Common parameters
+
+Parameters common to both `yum_autoupdate` and `yum_autoupdate::schedule`
+
 #####`action`
 Mode in which yum-cron should perform. Valid values are `check`, `download` and `apply`. Defaults to `apply`
 
 #####`exclude`
 Array of packages to exclude from automatic update. Defaults to `[]`
-
-#####`service_enable`
-Enable the service or not. Boolean value. Defaults to `true`
-
-#####`service_ensure`
-Whether the service should be running. Valid values are `stopped` and `running`. Defaults to `running`
 
 #####`notify_email`
 Enable email notifications. Boolean value. Defaults to `true`  
@@ -118,21 +166,18 @@ Recipient email address for update notifications. Defaults to `root` (local user
 An empty string forces the output to stdio, so emails will be sent by crond
 
 #####`email_from`
-Sender email address for update notifications. No effect when `email_to` is empty. Defaults to `root` (local user)
-
+Sender email address for update notifications. No effect when `email_to` is empty. Defaults to `root` (local user)  
 *Note:* not supported on CentOS 5
 
 #####`debug_level`
 YUM debug level. Valid values are numbers between `-1` and `10`. `-1` to disable. Default depends on the platform  
-Enforced to `-1` when `notify_email` is `false`
-
+Enforced to `-1` when `notify_email` is `false`  
 *Notes:*
 * `-1` is necessary to also suppress messages from deltarpm, since `0` doesn't
 * Always outputs to stdio on modern platforms, can apparently not be changed
 
 #####`error_level`
-YUM error level. Valid values are numbers between `0` and `10`. `0` to disable. Defaults to `0`
-
+YUM error level. Valid values are numbers between `0` and `10`. `0` to disable. Defaults to `0`  
 *Note:* always outputs to stdio on modern platforms, can apparently not be changed
 
 #####`update_cmd`
