@@ -5,7 +5,7 @@
   "project_page": "https://github.com/tOnI0/aco-yum_autoupdate",
   "source": "git://github.com/tOnI0/aco-yum_autoupdate.git",
   "summary": "Puppet module for scheduled system updates on RHEL variants",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "tags": ["unattended","update","yum"],
   "dependencies": [
     {
