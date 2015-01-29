@@ -40,10 +40,10 @@ class yum_autoupdate::params {
               fail("Unsupported OS version ${::operatingsystemmajrelease}")
             }
           }
+          $conf_tpl = "rhel${::operatingsystemmajrelease}.erb"
+          $schedule_tpl = "rhel${::operatingsystemmajrelease}.erb"
         }
       }
-      $conf_tpl = "rhel${::operatingsystemmajrelease}.erb"
-      $schedule_tpl = "rhel${::operatingsystemmajrelease}.erb"
     }
     default  : {
       fail("Unsupported OS family ${::osfamily}")
