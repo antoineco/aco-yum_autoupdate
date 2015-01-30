@@ -68,8 +68,8 @@ define yum_autoupdate::schedule (
   $user         = root,
   $hour         = undef,
   $minute       = undef,
-  $month        = undef,
   $monthday     = undef,
+  $month        = undef,
   $weekday      = undef,
   $special      = undef) {
   # The base class must be included first
@@ -101,6 +101,11 @@ define yum_autoupdate::schedule (
   } else {
     $exclude_real = join($exclude, ' ')
   }
+  
+  # create a more suitable location for our scripts
+  if ! defined(File['/etc/yum/schedules']) {
+    file { '/etc/yum/schedules': ensure => directory }
+  }
 
   # config file
   $config_path = "${yum_autoupdate::params::default_config_path}_${name_real}"
@@ -119,6 +124,7 @@ define yum_autoupdate::schedule (
     mode    => '0755'
   } ->
   cron { "yum-cron ${name} schedule":
+    ensure   => present,
     command  => "/etc/yum/schedules/yum-cron_${name_real}",
     user     => $user,
     hour     => $hour,

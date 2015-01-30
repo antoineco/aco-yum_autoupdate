@@ -100,9 +100,6 @@ class yum_autoupdate (
     group   => 'root'
   }
 
-  # create a more suitable location for our scripts
-  file { '/etc/yum/schedules': ensure => directory }
-
   # config file
   $config_path = $yum_autoupdate::params::default_config_path
   if $default_schedule {
