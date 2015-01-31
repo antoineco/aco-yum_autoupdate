@@ -1,5 +1,9 @@
 source 'https://rubygems.org'
 
-puppetversion = ENV.key?('PUPPET_VERSION') ? "= #{ENV['PUPPET_VERSION']}" : ['>= 2.7']
-gem 'puppet', puppetversion
-gem 'puppetlabs_spec_helper', '>= 0.1.0'
+group :travis do
+  gem 'puppet', '>= 2.7'
+  gem 'facter'
+end
+
+gem 'rake'
+gem 'puppetlabs_spec_helper'

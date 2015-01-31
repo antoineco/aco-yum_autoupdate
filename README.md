@@ -1,18 +1,20 @@
 #yum_autoupdate
+[![Build Status](https://travis-ci.org/tOnI0/aco-yum_autoupdate.svg?branch=master)](https://travis-ci.org/tOnI0/aco-yum_autoupdate)
 
 ####Table of Contents
 
-1. [Overview](#overview)
-2. [Module Description](#module-description)
-3. [Setup](#setup)
+1. [Overview - What is the yum_autoupdate module?](#overview)
+2. [Module Description - What does the module do?](#module-description)
+3. [Setup - The basics of getting started with yum_autoupdate](#setup)
   * [A couple of examples](#a-couple-of-examples)
-4. [Usage](#usage)
+4. [Usage - The classes and defined types available for configuration](#usage)
   * [Classes and Defined Types](#classes-and-defined-types)
     * [Class: yum_autoupdate](#class-yum_autoupdate)
     * [Define: yum_autoupdate::schedule](#define-yum_autoupdateschedule)
     * [Common parameters](#common-parameters)
-5. [To Do](#to-do)
-6. [Contributors](#contributors)
+5. [To Do - List of features to be implemented](#to-do)
+6. [Testing - How to run the included spec tests](#testing)
+7. [Contributors](#contributors)
 
 ##Overview
 
@@ -200,6 +202,28 @@ Maximum amount of time in minutes YUM randomly waits before running. Valid value
 ##To Do
 
 * Add support for passing arbitrary parameters to YUM
+
+##Testing
+
+The only prerequisite is to have the [Bundler](http://bundler.io/) gem installed:
+
+```shell
+$ gem install bundler
+```
+
+Install gem dependencies using Bundler (related documentation page [here](http://bundler.io/bundle_install.html)):
+
+```shell
+$ bundle install
+```
+
+When your environment is set up, run the spec tests inside the module directory using:
+
+```shell
+$ bundle exec rake spec
+```
+
+Check the [puppetlabs_spec_helper](https://github.com/puppetlabs/puppetlabs_spec_helper) GitHub repository for more information.
 
 ##Contributors
 
