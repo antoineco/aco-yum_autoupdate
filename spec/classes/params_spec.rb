@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'yum_autoupdate::params', :type => :class do
+describe 'yum_autoupdate::params' do
   context "On RedHat" do
     let :facts do
       {
@@ -10,8 +10,8 @@ describe 'yum_autoupdate::params', :type => :class do
       }
     end
     it { is_expected.to contain_yum_autoupdate__params }
-    it "should only contain default resources" do
-      expect(subject.resources.size).to eq(4)
+    it "should not contain any resource" do
+      should have_resource_count(0)
     end
   end
   context "On Fedora" do
@@ -23,8 +23,8 @@ describe 'yum_autoupdate::params', :type => :class do
       }
     end
     it { is_expected.to contain_yum_autoupdate__params }
-    it "should only contain default resources" do
-      expect(subject.resources.size).to eq(4)
+    it "should not contain any resource" do
+      should have_resource_count(0)
     end
   end
 end

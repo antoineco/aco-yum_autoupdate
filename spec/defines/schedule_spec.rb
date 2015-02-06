@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'yum_autoupdate::schedule', :type => :define do
+describe 'yum_autoupdate::schedule' do
   let :pre_condition do
     'include yum_autoupdate'
   end
@@ -17,7 +17,7 @@ describe 'yum_autoupdate::schedule', :type => :define do
   describe "general assumptions" do
     it { is_expected.to contain_class("yum_autoupdate") }
     it { is_expected.to contain_class("yum_autoupdate::params") }
-    it do 
+    it do
       is_expected.to contain_file('yum-cron rspec hourly schedule').with({
         'ensure' => 'present',
         'path'   => '/etc/yum/schedules/yum-cron_rspechourly',
@@ -28,13 +28,11 @@ describe 'yum_autoupdate::schedule', :type => :define do
   describe "os-specific considerations" do
     context "on RedHat 5" do
       let :facts do
-        {
-          :osfamily                  => 'RedHat',
-          :operatingsystemmajrelease => '5',
-          :operatingsystem           => 'RedHat'
-        }
+        super().merge({
+          :operatingsystemmajrelease => '5'
+        })
       end
-      it do 
+      it do
         is_expected.to contain_file('yum-cron rspec hourly config').with({
           'ensure' => 'present',
           'path'   => '/etc/sysconfig/yum-cron_rspechourly',
@@ -42,15 +40,13 @@ describe 'yum_autoupdate::schedule', :type => :define do
         }).with_content(/^YUM_PARAMETER/)
       end
     end
-     context "on RedHat 6" do
+    context "on RedHat 6" do
       let :facts do
-        {
-          :osfamily                  => 'RedHat',
-          :operatingsystemmajrelease => '6',
-          :operatingsystem           => 'RedHat'
-        }
+        super().merge({
+          :operatingsystemmajrelease => '6'
+        })
       end
-      it do 
+      it do
         is_expected.to contain_file('yum-cron rspec hourly config').with({
           'ensure' => 'present',
           'path'   => '/etc/sysconfig/yum-cron_rspechourly',
@@ -59,14 +55,8 @@ describe 'yum_autoupdate::schedule', :type => :define do
       end
     end
     context "on RedHat 7" do
-      let :facts do
-        {
-          :osfamily                  => 'RedHat',
-          :operatingsystemmajrelease => '7',
-          :operatingsystem           => 'RedHat'
-        }
-      end
-      it do 
+      let(:facts) { super() }
+      it do
         is_expected.to contain_file('yum-cron rspec hourly config').with({
           'ensure' => 'present',
           'path'   => '/etc/yum/yum-cron.conf_rspechourly',
@@ -76,13 +66,12 @@ describe 'yum_autoupdate::schedule', :type => :define do
     end
     context "on Fedora" do
       let :facts do
-        {
-          :osfamily                  => 'RedHat',
+        super().merge({
           :operatingsystemmajrelease => '21',
           :operatingsystem           => 'Fedora'
-        }
+        })
       end
-      it do 
+      it do
         is_expected.to contain_file('yum-cron rspec hourly config').with({
           'ensure' => 'present',
           'path'   => '/etc/yum/yum-cron.conf_rspechourly',
@@ -126,11 +115,9 @@ describe 'yum_autoupdate::schedule', :type => :define do
   describe "configuration file with default parameters" do
     context "on RedHat 5" do
       let :facts do
-        {
-          :osfamily                  => 'RedHat',
-          :operatingsystemmajrelease => '5',
-          :operatingsystem           => 'RedHat'
-        }
+        super().merge({
+          :operatingsystemmajrelease => '5'
+        })
       end
       it do
         is_expected.to contain_file('yum-cron rspec hourly config').with_content("# ******************\n# Managed by Puppet\n# ******************\n\nYUM_PARAMETER=\nCHECK_ONLY=no\nDOWNLOAD_ONLY=no\nERROR_LEVEL=0\nDEBUG_LEVEL=1\nMAILTO=root\nRANDOMWAIT=\"60\"\n")
@@ -138,11 +125,9 @@ describe 'yum_autoupdate::schedule', :type => :define do
     end
     context "on RedHat 6" do
       let :facts do
-        {
-          :osfamily                  => 'RedHat',
-          :operatingsystemmajrelease => '6',
-          :operatingsystem           => 'RedHat'
-        }
+        super().merge({
+          :operatingsystemmajrelease => '6'
+        })
       end
       it do
         is_expected.to contain_file('yum-cron rspec hourly config').with_content("# ******************\n# Managed by Puppet\n# ******************\n\nYUM_PARAMETER=\nCHECK_ONLY=no\nDOWNLOAD_ONLY=no\nCHECK_FIRST=no\nERROR_LEVEL=0\nDEBUG_LEVEL=1\nMAILTO=root\n#SYSTEMNAME=\"\"\nRANDOMWAIT=60\n#DAYS_OF_WEEK=\"0123456\" \nCLEANDAY=\"0\"\nSERVICE_WAITS=yes\nSERVICE_WAIT_TIME=300\n\n## extra options from the aco-yum_autoupdate Puppet module\nMAILFROM=root\n")
@@ -170,11 +155,9 @@ describe 'yum_autoupdate::schedule', :type => :define do
     end
     context "on RedHat 5" do
       let :facts do
-        {
-          :osfamily                  => 'RedHat',
-          :operatingsystemmajrelease => '5',
-          :operatingsystem           => 'RedHat'
-        }
+        super().merge({
+          :operatingsystemmajrelease => '5'
+        })
       end
       it do
         is_expected.to contain_file('yum-cron rspec hourly config').with_content("# ******************\n# Managed by Puppet\n# ******************\n\nYUM_PARAMETER=--exclude=httpd\\ --exclude=kernel\nCHECK_ONLY=yes\nDOWNLOAD_ONLY=no\nERROR_LEVEL=2\nDEBUG_LEVEL=-1\nMAILTO=admin@example.com\nRANDOMWAIT=\"120\"\n")
@@ -182,11 +165,9 @@ describe 'yum_autoupdate::schedule', :type => :define do
     end
     context "on RedHat 6" do
       let :facts do
-        {
-          :osfamily                  => 'RedHat',
-          :operatingsystemmajrelease => '6',
-          :operatingsystem           => 'RedHat'
-        }
+        super().merge({
+          :operatingsystemmajrelease => '6'
+        })
       end
       it do
         is_expected.to contain_file('yum-cron rspec hourly config').with_content("# ******************\n# Managed by Puppet\n# ******************\n\nYUM_PARAMETER=--exclude=httpd\\ --exclude=kernel\nCHECK_ONLY=yes\nDOWNLOAD_ONLY=no\nCHECK_FIRST=no\nERROR_LEVEL=2\nDEBUG_LEVEL=-1\nMAILTO=admin@example.com\n#SYSTEMNAME=\"\"\nRANDOMWAIT=120\n#DAYS_OF_WEEK=\"0123456\" \nCLEANDAY=\"0\"\nSERVICE_WAITS=yes\nSERVICE_WAIT_TIME=300\n\n## extra options from the aco-yum_autoupdate Puppet module\nMAILFROM=updates@localhost\n")
@@ -197,5 +178,13 @@ describe 'yum_autoupdate::schedule', :type => :define do
         is_expected.to contain_file('yum-cron rspec hourly config').with_content("# ******************\n# Managed by Puppet\n# ******************\n\n[commands]\nupdate_cmd = security\nupdate_messages = no\ndownload_updates = no\napply_updates = no\nrandom_sleep = 120\n\n[emitters]\nsystem_name = None\nemit_via = email\noutput_width = 80\n\n[email]\nemail_from = updates@localhost\nemail_to = admin@example.com\nemail_host = localhost\n\n[groups]\ngroup_list = None\ngroup_package_types = mandatory, default\n\n[base]\ndebuglevel = -1\nerrorlevel = 2\n# skip_broken = True\nmdpolicy = group:main\n# assumeyes = True\nexclude=httpd kernel\n")
       end
     end
-   end
+  end
+  describe "parameters validation" do
+    context "bad action" do
+      let(:params) {{ :action => 'invalid' }}
+      it 'expect to fail regexp validation' do
+        expect { is_expected.to raise_error(Puppet::Error, /action must be either/) }
+      end
+    end
+  end
 end
