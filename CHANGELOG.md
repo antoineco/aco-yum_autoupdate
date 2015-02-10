@@ -1,3 +1,8 @@
+###0.6.0
+
+* Added spec tests, see documentation for guidelines
+* Minor bugfixes
+
 ###0.5.1
 
 Fix compatibility with future parser in Puppet 3.7.4 ([PUP-3615](https://tickets.puppetlabs.com/browse/PUP-3615))
