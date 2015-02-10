@@ -9,9 +9,9 @@ describe 'yum_autoupdate::params' do
         :operatingsystem           => 'RedHat'
       }
     end
-    it { is_expected.to contain_yum_autoupdate__params }
-    it "should not contain any resource" do
-      should have_resource_count(0)
+    it { is_expected.to contain_class('yum_autoupdate::params') }
+    it 'should not contain any resource' do
+      is_expected.to have_resource_count(0)
     end
   end
   context "On Fedora" do
@@ -22,9 +22,9 @@ describe 'yum_autoupdate::params' do
         :operatingsystem           => 'Fedora'
       }
     end
-    it { is_expected.to contain_yum_autoupdate__params }
-    it "should not contain any resource" do
-      should have_resource_count(0)
+    it { is_expected.to contain_class('yum_autoupdate::params') }
+    it 'should not contain any resource' do
+      is_expected.to have_resource_count(0)
     end
   end
 end
