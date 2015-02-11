@@ -1,12 +1,8 @@
 require 'spec_helper'
 
 describe 'yum_autoupdate::schedule' do
-  let :pre_condition do
-    'include yum_autoupdate'
-  end
-  let :title do
-    'rspec_hourly'
-  end
+  let(:pre_condition) { 'include yum_autoupdate' }
+  let(:title) { 'rspec_hourly' }
   let :facts do
     {
       :osfamily                  => 'RedHat',
