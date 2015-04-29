@@ -1,5 +1,5 @@
 #yum_autoupdate
-[![Build Status](https://travis-ci.org/tOnI0/aco-yum_autoupdate.svg?branch=master)](https://travis-ci.org/tOnI0/aco-yum_autoupdate)
+[![Build Status](https://travis-ci.org/antoineco/aco-yum_autoupdate.svg?branch=master)](https://travis-ci.org/antoineco/aco-yum_autoupdate)
 
 ####Table of Contents
 
