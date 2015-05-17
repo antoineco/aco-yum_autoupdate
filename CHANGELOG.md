@@ -1,3 +1,9 @@
+###0.6.1
+
+* Fix compatibility with Puppet 4.0 ([jhoblitt](https://github.com/jhoblitt))
+* Housekeeping for Travis CI ([jhoblitt](https://github.com/jhoblitt))
+* Support Fedora 22
+
 ###0.6.0
 
 * Added spec tests, see documentation for guidelines
