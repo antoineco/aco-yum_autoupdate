@@ -4,7 +4,7 @@ describe 'yum_autoupdate::params' do
   let :facts do
     {
       :osfamily                  => 'RedHat',
-      :operatingsystemmajrelease => '7',
+      :operatingsystemmajrelease => 7,
       :operatingsystem           => 'RedHat'
     }
   end

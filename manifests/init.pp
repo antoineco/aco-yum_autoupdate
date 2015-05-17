@@ -81,7 +81,7 @@ class yum_autoupdate (
     $debug_level_real = $debug_level
   }
 
-  if $::operatingsystem != 'Fedora' and $::operatingsystemmajrelease < '7' {
+  if $::operatingsystem != 'Fedora' and $::operatingsystemmajrelease < 7 {
     $exclude_real = join(prefix($exclude, '--exclude='), '\ ')
   } else {
     $exclude_real = join($exclude, ' ')
@@ -134,7 +134,7 @@ class yum_autoupdate (
 
   # clear default hourly schedule on recent OSes
   # it can be recreated and customized using a 'schedule' resource
-  if $::operatingsystem == 'Fedora' or ($::operatingsystem != 'Fedora' and $::operatingsystemmajrelease >= '7') {
+  if $::operatingsystem == 'Fedora' or ($::operatingsystem != 'Fedora' and $::operatingsystemmajrelease >= 7) {
     unless $keep_default_hourly {
       file { ['/etc/yum/yum-cron-hourly.conf', '/etc/cron.hourly/0yum-hourly.cron']: ensure => absent }
     }
