@@ -97,7 +97,7 @@ define yum_autoupdate::schedule (
   # remove potential spaces from name
   $name_real = delete($name, ' ')
 
-  if $::operatingsystem != 'Fedora' and $::operatingsystemmajrelease < 7 {
+  if $::operatingsystem != 'Fedora' and $::operatingsystemmajrelease < '7' {
     $exclude_real = join(prefix($exclude, '--exclude='), '\ ')
   } else {
     $exclude_real = join($exclude, ' ')
