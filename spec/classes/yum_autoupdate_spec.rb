@@ -4,7 +4,7 @@ describe 'yum_autoupdate' do
   let :facts do
     {
       :osfamily                  => 'RedHat',
-      :operatingsystemmajrelease => 7,
+      :operatingsystemmajrelease => '7',
       :operatingsystem           => 'RedHat'
     }
   end
@@ -27,7 +27,7 @@ describe 'yum_autoupdate' do
     context 'on RedHat 5' do
       let :facts do
         super().merge({
-          :operatingsystemmajrelease => 5
+          :operatingsystemmajrelease => '5'
         })
       end
       it do
@@ -58,7 +58,7 @@ describe 'yum_autoupdate' do
     context 'on RedHat 6' do
       let :facts do
         super().merge({
-          :operatingsystemmajrelease => 6
+          :operatingsystemmajrelease => '6'
         })
       end
       it do
@@ -118,7 +118,7 @@ describe 'yum_autoupdate' do
     context 'on Fedora' do
       let :facts do
         super().merge({
-          :operatingsystemmajrelease => 21,
+          :operatingsystemmajrelease => '21',
           :operatingsystem           => 'Fedora'
         })
       end
@@ -160,7 +160,7 @@ describe 'yum_autoupdate' do
     context 'on RedHat 5' do
       let :facts do
         super().merge({
-          :operatingsystemmajrelease => 5
+          :operatingsystemmajrelease => '5'
         })
       end
       ['yum-cron default config', 'yum-cron default schedule'].each do |daily_files|
@@ -173,7 +173,7 @@ describe 'yum_autoupdate' do
     context 'on RedHat 6' do
       let :facts do
         super().merge({
-          :operatingsystemmajrelease => 6
+          :operatingsystemmajrelease => '6'
         })
       end
       ['yum-cron default config', 'yum-cron default schedule'].each do |daily_files|
@@ -197,7 +197,7 @@ describe 'yum_autoupdate' do
     context 'on Fedora' do
       let :facts do
         super().merge({
-          :operatingsystemmajrelease => 21,
+          :operatingsystemmajrelease => '21',
           :operatingsystem           => 'Fedora'
         })
       end
@@ -216,7 +216,7 @@ describe 'yum_autoupdate' do
       context 'on RedHat 5' do
         let :facts do
           super().merge({
-            :operatingsystemmajrelease => 5
+            :operatingsystemmajrelease => '5'
           })
         end
         it 'expect valid content' do
@@ -226,7 +226,7 @@ describe 'yum_autoupdate' do
       context 'on RedHat 6' do
         let :facts do
           super().merge({
-            :operatingsystemmajrelease => 6
+            :operatingsystemmajrelease => '6'
           })
         end
         it 'expect valid content' do
@@ -256,7 +256,7 @@ describe 'yum_autoupdate' do
       context 'on RedHat 5' do
         let :facts do
           super().merge({
-            :operatingsystemmajrelease => 5
+            :operatingsystemmajrelease => '5'
           })
         end
         it 'expect valid content' do
@@ -266,7 +266,7 @@ describe 'yum_autoupdate' do
       context 'on RedHat 6' do
         let :facts do
           super().merge({
-            :operatingsystemmajrelease => 6
+            :operatingsystemmajrelease => '6'
           })
         end
         it 'expect valid content' do
