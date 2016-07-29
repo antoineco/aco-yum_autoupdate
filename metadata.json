@@ -49,10 +49,11 @@
     {
       "operatingsystem": "Fedora",
       "operatingsystemrelease": [
-        "19",
         "20",
         "21",
-        "22"
+        "22",
+        "23",
+        "24"
       ]
     }
   ],

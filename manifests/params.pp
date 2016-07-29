@@ -6,14 +6,14 @@ class yum_autoupdate::params {
       case $::operatingsystem {
         'Fedora' : {
           case $::operatingsystemmajrelease {
-            '19','20','21','22' : {
+            /^2[0-9]$/ : {
               $default_config_path = '/etc/yum/yum-cron.conf'
               $default_schedule_path = '/etc/cron.daily/0yum-daily.cron'
               $conf_tpl = 'rhel7.erb'
               $schedule_tpl = 'rhel7.erb'
               $debug_level = -1
             }
-            default             : {
+            default    : {
               fail("Unsupported OS version ${::operatingsystemmajrelease}")
             }
           }
