@@ -26,7 +26,9 @@ group_package_types = mandatory, default
 [base]
 debuglevel = <%= @debug_level_real %>
 errorlevel = <%= @error_level %>
-skip_broken = <%= @skip_broken %>
+<% if @skip_broken -%>
+skip_broken = True
+<% end -%>
 mdpolicy = group:main
 # assumeyes = True
 <% if ! @exclude.empty? -%>

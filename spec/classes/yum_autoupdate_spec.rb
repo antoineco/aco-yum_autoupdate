@@ -235,7 +235,7 @@ describe 'yum_autoupdate' do
       end
       context 'on new generation' do
         it 'expect valid content' do
-          is_expected.to contain_file('yum-cron default config').with_content("# ******************\n# Managed by Puppet\n# ******************\n\n[commands]\nupdate_cmd = default\nupdate_messages = yes\ndownload_updates = yes\napply_updates = yes\nrandom_sleep = 60\n\n[emitters]\nsystem_name = None\nemit_via = email\noutput_width = 80\n\n[email]\nemail_from = root\nemail_to = root\nemail_host = localhost\n\n[groups]\ngroup_list = None\ngroup_package_types = mandatory, default\n\n[base]\ndebuglevel = -1\nerrorlevel = 0\nskip_broken = True\nmdpolicy = group:main\n# assumeyes = True\n")
+          is_expected.to contain_file('yum-cron default config').with_content("# ******************\n# Managed by Puppet\n# ******************\n\n[commands]\nupdate_cmd = default\nupdate_messages = yes\ndownload_updates = yes\napply_updates = yes\nrandom_sleep = 60\n\n[emitters]\nsystem_name = None\nemit_via = email\noutput_width = 80\n\n[email]\nemail_from = root\nemail_to = root\nemail_host = localhost\n\n[groups]\ngroup_list = None\ngroup_package_types = mandatory, default\n\n[base]\ndebuglevel = -1\nerrorlevel = 0\nmdpolicy = group:main\n# assumeyes = True\n")
         end
       end
     end
@@ -249,6 +249,7 @@ describe 'yum_autoupdate' do
           'email_from'   => 'updates@localhost',
           'debug_level'  => 4,
           'error_level'  => 2,
+          'skip_broken'  => true,
           'update_cmd'   => 'security',
           'randomwait'   => 120
         }
@@ -260,7 +261,7 @@ describe 'yum_autoupdate' do
           })
         end
         it 'expect valid content' do
-          is_expected.to contain_file('yum-cron default config').with_content("# ******************\n# Managed by Puppet\n# ******************\n\nYUM_PARAMETER=--exclude=httpd\\ --exclude=kernel\nCHECK_ONLY=yes\nDOWNLOAD_ONLY=no\nERROR_LEVEL=2\nDEBUG_LEVEL=-1\nMAILTO=admin@example.com\nRANDOMWAIT=\"120\"\n")
+          is_expected.to contain_file('yum-cron default config').with_content("# ******************\n# Managed by Puppet\n# ******************\n\nYUM_PARAMETER=--exclude=httpd\\ --exclude=kernel\\ --skip-broken\nCHECK_ONLY=yes\nDOWNLOAD_ONLY=no\nERROR_LEVEL=2\nDEBUG_LEVEL=-1\nMAILTO=admin@example.com\nRANDOMWAIT=\"120\"\n")
         end
       end
       context 'on RedHat 6' do
@@ -270,7 +271,7 @@ describe 'yum_autoupdate' do
           })
         end
         it 'expect valid content' do
-          is_expected.to contain_file('yum-cron default config').with_content("# ******************\n# Managed by Puppet\n# ******************\n\nYUM_PARAMETER=--exclude=httpd\\ --exclude=kernel\nCHECK_ONLY=yes\nDOWNLOAD_ONLY=no\nCHECK_FIRST=no\nERROR_LEVEL=2\nDEBUG_LEVEL=-1\nMAILTO=admin@example.com\n#SYSTEMNAME=\"\"\nRANDOMWAIT=120\n#DAYS_OF_WEEK=\"0123456\" \nCLEANDAY=\"0\"\nSERVICE_WAITS=yes\nSERVICE_WAIT_TIME=300\n\n## extra options from the aco-yum_autoupdate Puppet module\nMAILFROM=updates@localhost\n")
+          is_expected.to contain_file('yum-cron default config').with_content("# ******************\n# Managed by Puppet\n# ******************\n\nYUM_PARAMETER=--exclude=httpd\\ --exclude=kernel\\ --skip-broken\nCHECK_ONLY=yes\nDOWNLOAD_ONLY=no\nCHECK_FIRST=no\nERROR_LEVEL=2\nDEBUG_LEVEL=-1\nMAILTO=admin@example.com\n#SYSTEMNAME=\"\"\nRANDOMWAIT=120\n#DAYS_OF_WEEK=\"0123456\" \nCLEANDAY=\"0\"\nSERVICE_WAITS=yes\nSERVICE_WAIT_TIME=300\n\n## extra options from the aco-yum_autoupdate Puppet module\nMAILFROM=updates@localhost\n")
         end
       end
       context 'on new generation' do

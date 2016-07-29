@@ -1,6 +1,6 @@
 ###0.6.3
 
- * Added control over skip_broken yum parameter
+ New parameter `skip_broken` ([mpuel](https://github.com/mpuel))
 
 ###0.6.2
 

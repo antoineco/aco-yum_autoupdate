@@ -182,6 +182,9 @@ Enforced to `-1` when `notify_email` is `false`
 YUM error level. Valid values are numbers between `0` and `10`. `0` to disable. Defaults to `0`  
 *Note:* always outputs to stdio on modern platforms, can apparently not be changed
 
+#####`skip_broken`
+Enable YUM `--skip-broken` option. Boolean value. Defaults to `false`
+
 #####`update_cmd`
 What updates to install, based on RedHat erratas. Valid values are:
 * `default` (all available updates)
@@ -230,5 +233,6 @@ Check the [puppetlabs_spec_helper](https://github.com/puppetlabs/puppetlabs_spec
 * [Kim Stig Andersen](https://github.com/ksaio)
 * [Joshua Hoblitt](https://github.com/jhoblitt)
 * [Daniel Forsberg](https://github.com/jenkins101)
+* [Mattieu Puel](https://github.com/mpuel)
 
 Features request and contributions are always welcome!

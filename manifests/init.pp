@@ -26,6 +26,8 @@
 #   YUM debug level (valid: 0-10 or -1). -1 to disable debug output completely
 # [*error_level*]
 #   YUM error level (valid: 0-10). 0 to disable error output completely
+# [*skip_broken*]
+#   enable skip-broken option (boolean)
 # [*randomwait*]
 #   maximum amount of time in minutes YUM randomly waits before running (valid: 0-1440). 0 to disable
 # [*update_cmd*]
@@ -61,7 +63,7 @@ class yum_autoupdate (
   $email_from          = 'root',
   $debug_level         = $yum_autoupdate::params::debug_level,
   $error_level         = 0,
-  $skip_broken         = 'True',
+  $skip_broken         = false,
   $update_cmd          = 'default',
   $randomwait          = 60) inherits yum_autoupdate::params {
   # parameters validation
