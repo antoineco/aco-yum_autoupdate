@@ -93,7 +93,7 @@ define yum_autoupdate::schedule (
   } else {
     $debug_level_real = $debug_level
   }
-  
+
   # remove potential spaces from name
   $name_real = delete($name, ' ')
 
@@ -102,7 +102,7 @@ define yum_autoupdate::schedule (
   } else {
     $exclude_real = join($exclude, ' ')
   }
-  
+
   # create a more suitable location for our scripts
   if !defined(File['/etc/yum/schedules']) {
     file { '/etc/yum/schedules': ensure => directory }
