@@ -94,10 +94,12 @@ class yum_autoupdate (
   }
 
   # package installation and service configuration
-  package { 'yum-cron': ensure => present } ->
+  package { 'yum-cron': ensure => present }
+
   service { 'yum-cron':
-    ensure => $service_ensure,
-    enable => $service_enable
+    ensure  => $service_ensure,
+    enable  => $service_enable,
+    require => Package['yum-cron']
   }
 
   # don't attempt any file replacement before the package is installed

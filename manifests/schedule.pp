@@ -126,7 +126,8 @@ define yum_autoupdate::schedule (
     path    => "/etc/yum/schedules/yum-cron_${name_real}",
     content => template("${module_name}/schedule/${yum_autoupdate::params::schedule_tpl}"),
     mode    => '0755'
-  } ->
+  }
+
   cron { "yum-cron ${name} schedule":
     ensure   => present,
     command  => "/etc/yum/schedules/yum-cron_${name_real}",
@@ -136,6 +137,7 @@ define yum_autoupdate::schedule (
     month    => $month,
     monthday => $monthday,
     weekday  => $weekday,
-    special  => $special
+    special  => $special,
+    require  => File["yum-cron ${name} schedule"]
   }
 }
